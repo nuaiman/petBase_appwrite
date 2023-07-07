@@ -1,8 +1,11 @@
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:like_button/like_button.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
-class PetTile extends StatelessWidget {
+class PetTile extends ConsumerWidget {
   const PetTile({
     super.key,
     required this.pet,
@@ -13,7 +16,7 @@ class PetTile extends StatelessWidget {
   final User user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GridTile(
       child: Card(
         elevation: 0,
@@ -47,12 +50,39 @@ class PetTile extends StatelessWidget {
                   maxLines: 1,
                 ),
                 subtitle: Text('${pet.distance.toStringAsFixed(2)} km'),
-                trailing: pet.likes.contains(user.$id)
-                    ? const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      )
-                    : const Icon(Icons.favorite_outline),
+                trailing: SizedBox(
+                  height: 20,
+                  width: 60,
+                  child: LikeButton(
+                    size: 25,
+                    onTap: (isLiked) async {
+                      ref
+                          .read(petControllerProvider.notifier)
+                          .likePet(pet, user.$id);
+                      return !isLiked;
+                    },
+                    likeBuilder: (isLiked) {
+                      return pet.likes.contains(user.$id)
+                          ? const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            )
+                          : const Icon(Icons.favorite_border);
+                    },
+                  ),
+                ),
+
+                // IconButton(
+                //   onPressed: () {
+
+                //   },
+                //   icon: pet.likes.contains(user.$id)
+                //       ? const Icon(
+                //           Icons.favorite,
+                //           color: Colors.red,
+                //         )
+                //       : const Icon(Icons.favorite_outline),
+                // ),
               ),
             ],
           ),

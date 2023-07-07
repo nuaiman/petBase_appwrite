@@ -104,7 +104,7 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
     return currentUser;
   }
 
-  Future<void> getPets() async {
+  Future<List<PetModel>> getPets() async {
     double calculateDistance(lat1, lon1, lat2, lon2) {
       var p = 0.017453292519943295;
       var c = cos;
@@ -120,6 +120,8 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
             distance:
                 calculateDistance(lat, lon, pet.data['lat'], pet.data['lon'])))
         .toList();
+
+    return _pets;
   }
 }
 // -----------------------------------------------------------------------------

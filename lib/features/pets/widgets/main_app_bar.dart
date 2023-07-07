@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/pets/view/likes_view.dart';
 import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
@@ -92,7 +93,8 @@ import '../view/add_pet_view.dart';
 //   );
 // }
 
-SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
+SliverAppBar mainAppBar(
+    BuildContext context, List<PetModel> pets, WidgetRef ref) {
   final user = ref.watch(getCurrentAccountProvider).value;
   return SliverAppBar(
     floating: true,
@@ -122,7 +124,13 @@ SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
     ),
     actions: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LikeView(
+              userId: user.$id,
+            ),
+          ));
+        },
         icon: const Icon(
           Icons.favorite_outline,
         ),
@@ -139,6 +147,7 @@ SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 5),
           Row(
             children: [
               const SizedBox(width: 15),
@@ -180,110 +189,106 @@ SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
                   ),
                 ),
               ),
-              // Card(
-              //   color: const Color(0xFFE3ECFF),
-              //   elevation: 0,
-              //   child: SizedBox(
-              //     height: 50,
-              //     width: 45,
-              //     child: IconButton(
-              //       onPressed: () {
-              //         showDialog(
-              //           context: context,
-              //           builder: (context) => const AlertDialog(),
-              //         );
-              //       },
-              //       icon: const Icon(Icons.tune),
-              //     ),
-              //   ),
-              // ),
               const SizedBox(width: 10),
             ],
           ),
-          TabBar(
-            isScrollable: true,
-            tabs: [
-              TabBuilder(
-                text: 'All',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.all);
-                },
-              ),
-              TabBuilder(
-                text: 'Cats',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.cat);
-                },
-              ),
-              TabBuilder(
-                text: 'Dogs',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.dog);
-                },
-              ),
-              TabBuilder(
-                text: 'Birds',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.bird);
-                },
-              ),
-              TabBuilder(
-                text: 'Rabbits',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.rabbit);
-                },
-              ),
-              TabBuilder(
-                text: 'Aquatic',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.aquatic);
-                },
-              ),
-              TabBuilder(
-                text: 'Rodents',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.rodent);
-                },
-              ),
-              TabBuilder(
-                text: 'Domestic',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.domestic);
-                },
-              ),
-              TabBuilder(
-                text: 'Reptiles',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.reptile);
-                },
-              ),
-              TabBuilder(
-                text: 'Others',
-                onTap: () {
-                  ref
-                      .read(petTypeFilterProvider.notifier)
-                      .getPetsByType(PetType.others);
-                },
-              ),
-            ],
+          SizedBox(
+            height: 50,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                TabBuilder(
+                  text: 'All',
+                  type: PetType.all,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.all);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Cats',
+                  type: PetType.cat,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.cat);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Dogs',
+                  type: PetType.dog,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.dog);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Birds',
+                  type: PetType.bird,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.bird);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Rabbits',
+                  type: PetType.rabbit,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.rabbit);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Aquatic',
+                  type: PetType.aquatic,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.aquatic);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Rodents',
+                  type: PetType.rodent,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.rodent);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Domestic',
+                  type: PetType.domestic,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.domestic);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Reptiles',
+                  type: PetType.reptile,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.reptile);
+                  },
+                ),
+                TabBuilder(
+                  text: 'Others',
+                  type: PetType.others,
+                  onTap: () {
+                    ref
+                        .read(petTypeFilterProvider.notifier)
+                        .getPetsByType(PetType.others);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -291,23 +296,37 @@ SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
   );
 }
 
-class TabBuilder extends StatelessWidget {
+class TabBuilder extends ConsumerWidget {
   const TabBuilder({
     super.key,
     required this.text,
     required this.onTap,
+    required this.type,
   });
 
   final String text;
   final VoidCallback onTap;
+  final PetType type;
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Tab(
-        text: text,
-      ),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextButton(
+        onPressed: onTap,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: getButtonColor(type, ref),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ));
   }
+}
+
+Color getButtonColor(PetType type, WidgetRef ref) {
+  final currentPetType = ref.watch(petTypeFilterProvider);
+  if (currentPetType == type) {
+    return Colors.blue;
+  }
+  return Colors.grey;
 }

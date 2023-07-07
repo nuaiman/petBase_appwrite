@@ -120,7 +120,8 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
                   child: DropdownButtonFormField(
                     value: petType.type,
                     items: [
-                      for (final pet in PetType.values)
+                      for (final pet in PetType.values
+                          .where((element) => element != PetType.all))
                         DropdownMenuItem(
                           value: pet.name,
                           child: Row(

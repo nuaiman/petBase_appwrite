@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_base/features/auth/controller/auth_controller.dart';
-import 'package:pet_base/features/initialization/controller/initialization_controller.dart';
 
 import '../controller/filtered_pets_controller.dart';
 import '../controller/pet_search_controller.dart';
@@ -18,8 +17,8 @@ class PetsView extends ConsumerWidget {
     final petsProvider = ref.watch(filteredPetsProvider.notifier);
     final pets = petsProvider.getFilteredPets();
     final currentUser = ref.watch(getCurrentAccountProvider).value;
-    final searchProvider = ref.watch(petSearchProvider);
-    final filterProvider = ref.watch(petTypeFilterProvider);
+    ref.watch(petSearchProvider);
+    ref.watch(petTypeFilterProvider);
     return DefaultTabController(
       length: 10,
       child: GestureDetector(
@@ -30,7 +29,13 @@ class PetsView extends ConsumerWidget {
           // appBar: mainAppBar(context, ref),
           body: CustomScrollView(
             slivers: [
-              mainAppBar(context, ref),
+              mainAppBar(
+                  context,
+                  pets
+                      .where(
+                          (element) => element.likes.contains(currentUser!.$id))
+                      .toList(),
+                  ref),
               SliverToBoxAdapter(
                 child: GridView.builder(
                   shrinkWrap: true,
