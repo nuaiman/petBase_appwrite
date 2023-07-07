@@ -58,27 +58,27 @@ class PetTile extends ConsumerWidget {
                   maxLines: 1,
                 ),
                 subtitle: Text('${pet.distance.toStringAsFixed(2)} km'),
-                trailing: SizedBox(
-                  height: 20,
-                  width: 60,
-                  child: LikeButton(
-                    size: 25,
-                    onTap: (isLiked) async {
-                      ref
-                          .read(petControllerProvider.notifier)
-                          .likePet(pet, user.$id);
-                      return !isLiked;
-                    },
-                    likeBuilder: (isLiked) {
-                      return pet.likes.contains(user.$id)
-                          ? const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : const Icon(Icons.favorite_border);
-                    },
-                  ),
-                ),
+                // trailing: SizedBox(
+                //   height: 20,
+                //   width: 60,
+                //   child: LikeButton(
+                //     size: 25,
+                //     onTap: (isLiked) async {
+                //       ref
+                //           .read(petControllerProvider.notifier)
+                //           .likePet(pet, user.$id);
+                //       return !isLiked;
+                //     },
+                //     likeBuilder: (isLiked) {
+                //       return pet.likes.contains(user.$id)
+                //           ? const Icon(
+                //               Icons.favorite,
+                //               color: Colors.red,
+                //             )
+                //           : const Icon(Icons.favorite_border);
+                //     },
+                //   ),
+                // ),
 
                 // IconButton(
                 //   onPressed: () {

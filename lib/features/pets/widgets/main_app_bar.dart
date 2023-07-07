@@ -115,27 +115,27 @@ SliverAppBar mainAppBar(
         ),
         Text(
           user.prefs.data['country'],
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+          style: const TextStyle(
+            color: Colors.black,
             fontSize: 16,
           ),
         ),
       ],
     ),
     actions: [
-      IconButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => LikeView(
-              userId: user.$id,
-            ),
-          ));
-        },
-        icon: const Icon(
-          Icons.favorite_outline,
-        ),
-      ),
-      const SizedBox(width: 10),
+      // IconButton(
+      //   onPressed: () {
+      //     Navigator.of(context).push(MaterialPageRoute(
+      //       builder: (context) => LikeView(
+      //         userId: user.$id,
+      //       ),
+      //     ));
+      //   },
+      //   icon: const Icon(
+      //     Icons.favorite_outline,
+      //   ),
+      // ),
+      // const SizedBox(width: 10),
       IconButton(
         onPressed: () {},
         icon: const Icon(Icons.chat_outlined),
@@ -316,7 +316,7 @@ class TabBuilder extends ConsumerWidget {
           text,
           style: TextStyle(
             color: getButtonColor(type, ref),
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
         ));
@@ -326,7 +326,7 @@ class TabBuilder extends ConsumerWidget {
 Color getButtonColor(PetType type, WidgetRef ref) {
   final currentPetType = ref.watch(petTypeFilterProvider);
   if (currentPetType == type) {
-    return Colors.blue;
+    return Colors.black;
   }
   return Colors.grey;
 }

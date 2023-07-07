@@ -23,10 +23,12 @@ class MyApp extends ConsumerWidget {
         fontFamily: 'Ubuntu',
       ).copyWith(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF2F8FF),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFF2F8FF),
-        ),
+        // scaffoldBackgroundColor: const Color(0xFFF2F8FF),
+        // scaffoldBackgroundColor: Colors.white,
+        // appBarTheme: const AppBarTheme(
+        //   // backgroundColor: Color(0xFFF2F8FF),
+        //   backgroundColor: Colors.white,
+        // ),
         bottomSheetTheme: BottomSheetThemeData(
           backgroundColor: const Color.fromARGB(0, 255, 255, 255).withAlpha(0),
         ),

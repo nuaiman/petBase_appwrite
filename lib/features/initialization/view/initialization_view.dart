@@ -52,14 +52,14 @@ class _InitializationViewState extends ConsumerState<InitializationView> {
             ],
           ),
           actions: const [
+            // IconButton(
+            //   onPressed: null,
+            //   icon: Icon(Icons.looks_one_outlined),
+            // ),
+            // SizedBox(width: 10),
             IconButton(
               onPressed: null,
-              icon: Icon(Icons.looks_one_outlined),
-            ),
-            SizedBox(width: 10),
-            IconButton(
-              onPressed: null,
-              icon: Icon(Icons.looks_two_outlined),
+              icon: Icon(Icons.chat),
             ),
             SizedBox(width: 10),
           ],
@@ -68,23 +68,23 @@ class _InitializationViewState extends ConsumerState<InitializationView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Row(
                   children: [
-                    const SizedBox(width: 5),
-                    const Card(
-                      color: Color(0xFFE3ECFF),
-                      elevation: 0,
-                      child: SizedBox(
-                        height: 50,
-                        width: 45,
-                        child: IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.add),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 15),
+                    // const Card(
+                    //   color: Color(0xFFE3ECFF),
+                    //   elevation: 0,
+                    //   child: SizedBox(
+                    //     height: 50,
+                    //     width: 45,
+                    //     child: IconButton(
+                    //       onPressed: null,
+                    //       icon: Icon(Icons.add),
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 5),
                     Expanded(
                       child: SizedBox(
                         height: 50,
@@ -110,50 +110,30 @@ class _InitializationViewState extends ConsumerState<InitializationView> {
                         width: 45,
                         child: IconButton(
                           onPressed: null,
-                          icon: Icon(Icons.tune),
+                          icon: Icon(Icons.add),
                         ),
                       ),
                     ),
                     const SizedBox(width: 5),
                   ],
                 ),
-                const IgnorePointer(
-                  ignoring: true,
-                  child: TabBar(
-                    isScrollable: true,
-                    tabs: [
-                      Tab(
-                        text: 'All',
-                      ),
-                      Tab(
-                        text: 'Cats',
-                      ),
-                      Tab(
-                        text: 'Dogs',
-                      ),
-                      Tab(
-                        text: 'Birds',
-                      ),
-                      Tab(
-                        text: 'Rabbits',
-                      ),
-                      Tab(
-                        text: 'Aquatic',
-                      ),
-                      Tab(
-                        text: 'Rodents',
-                      ),
-                      Tab(
-                        text: 'Domestic',
-                      ),
-                      Tab(
-                        text: 'Reptiles',
-                      ),
-                      Tab(
-                        text: 'Others',
-                      ),
-                    ],
+                Container(
+                  width: double.infinity,
+                  height: 15,
+                  color: Colors.white,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 15,
+                    color: Colors.grey,
                   ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 15,
+                  color: Colors.white,
                 ),
               ],
             ),

@@ -40,50 +40,12 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
         child: Row(
           children: [
             const SizedBox(width: 10),
-            GestureDetector(
-              // onTap: currentUser!.$id == widget.petModel.uid
-              //     ? () {}
-              //     : () async {
-              //         final documentId = await ref
-              //             .watch(chatControllerProvider.notifier)
-              //             .startChat(
-              //               context: context,
-              //               petModel: widget.petModel,
-              //               currentUser: currentUser,
-              //               otherUid: widget.petModel.uid,
-              //             );
-
-              //         if (context.mounted) {
-              //           Navigator.of(context).push(MaterialPageRoute(
-              //             builder: (context) => ChatView(
-              //               currentUser: currentUser,
-              //               documentId: documentId.toString(),
-              //               petOwnerId: widget.petModel.uid,
-              //             ),
-              //           ));
-              //         }
-              //       },
-              child: Container(
-                height: 45,
-                width: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFF182747),
-                ),
-                child: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
             Expanded(
               child: Container(
                 height: 45,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFF4689FD),
+                  color: Colors.black,
                 ),
                 child: const Center(
                   child: Text(
@@ -277,7 +239,7 @@ class PetPropertyWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: const Color(0xFF83BEDC),
+          color: Colors.black,
         ),
         height: 30,
         child: Center(
