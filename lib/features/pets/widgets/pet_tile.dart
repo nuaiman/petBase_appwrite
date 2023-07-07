@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_base/features/pets/controller/pet_controller.dart';
+import 'package:pet_base/features/pets/view/pet_details_view.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 class PetTile extends ConsumerWidget {
@@ -31,9 +32,16 @@ class PetTile extends ConsumerWidget {
                   child: SizedBox(
                     height: constraints.maxHeight * 0.725,
                     width: double.infinity,
-                    child: Image.network(
-                      pet.images[0],
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PetDetailView(petModel: pet),
+                        ));
+                      },
+                      child: Image.network(
+                        pet.images[0],
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
