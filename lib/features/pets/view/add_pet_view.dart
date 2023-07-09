@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 
 import 'package:appwrite/appwrite.dart';
@@ -156,7 +154,6 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
                         ),
                     ],
                     onChanged: (value) {
-                      print(value);
                       setState(() {
                         _selectedGenderCategory = value!;
                       });

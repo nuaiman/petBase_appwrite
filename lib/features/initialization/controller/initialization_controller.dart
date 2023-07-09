@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -41,8 +39,6 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
     final pets = await getPets();
     ref.read(petControllerProvider.notifier).setPets(pets);
 
-    // print(_pets);
-
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const PetsView()),
         (route) => false);
@@ -80,11 +76,6 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
     _country = placeList[0].country.toString();
     _lat = locationData.latitude!;
     _lon = locationData.longitude!;
-
-    print(_city);
-    print(_country);
-    print(_lat);
-    print(_lon);
   }
 
   Future<UserModel> initializeCurrentUser(WidgetRef ref) async {
@@ -102,7 +93,6 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
       likes: user.prefs.data['likes'] ?? [],
       conversations: user.prefs.data['conversations'] ?? [],
     );
-    print(currentUser.toString());
     return currentUser;
   }
 

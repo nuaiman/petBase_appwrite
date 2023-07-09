@@ -37,7 +37,6 @@
 //     final chatList = await _chatsApi.getChats(
 //         currentUserId: user.$id, otherUserId: otherUserId);
 //     final list = chatList.map((chat) => ChatModel.fromMap(chat.data)).toList();
-//     print(list);
 //     return list;
 //   }
 

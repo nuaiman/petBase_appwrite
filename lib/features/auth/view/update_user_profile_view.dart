@@ -91,8 +91,6 @@ class _UpdateUserProfileViewState extends ConsumerState<UpdateUserProfileView> {
 //   //   locationData = await location.getLocation();
 //   //   final latitude = locationData.latitude;
 //   //   final longitude = locationData.longitude;
-//   //   print(latitude);
-//   //   print(longitude);
 //   //   if (latitude == null || longitude == null) {
 //   //     setState(() {
 //   //       _isGettingLocation = false;
@@ -105,7 +103,6 @@ class _UpdateUserProfileViewState extends ConsumerState<UpdateUserProfileView> {
 //   //     double latitude, double longitude) async {
 //   //   List<geo.Placemark> placeList =
 //   //       await geo.placemarkFromCoordinates(latitude, longitude);
-//   //   print(placeList);
 //   //   return placeList;
 //   // }
 //   // void _savePlace(double latitude, double longitude) async {
@@ -113,7 +110,6 @@ class _UpdateUserProfileViewState extends ConsumerState<UpdateUserProfileView> {
 //   //   if (addressData.isEmpty) {
 //   //     return;
 //   //   }
-//   //   print(addressData);
 //   //   // final String? street = addressData[0].street;
 //   //   // final String? postalCode = addressData[0].postalCode;
 //   //   // final String? locality = addressData[0].locality;

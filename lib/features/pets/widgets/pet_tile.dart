@@ -1,8 +1,11 @@
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:like_button/like_button.dart';
 import 'package:pet_base/features/pets/view/pet_details_view.dart';
 import 'package:pet_base/models/pet_model.dart';
+
+import '../controller/pet_controller.dart';
 
 class PetTile extends ConsumerWidget {
   const PetTile({
@@ -56,27 +59,27 @@ class PetTile extends ConsumerWidget {
                   maxLines: 1,
                 ),
                 subtitle: Text('${pet.distance.toStringAsFixed(2)} km'),
-                // trailing: SizedBox(
-                //   height: 20,
-                //   width: 60,
-                //   child: LikeButton(
-                //     size: 25,
-                //     onTap: (isLiked) async {
-                //       ref
-                //           .read(petControllerProvider.notifier)
-                //           .likePet(pet, user.$id);
-                //       return !isLiked;
-                //     },
-                //     likeBuilder: (isLiked) {
-                //       return pet.likes.contains(user.$id)
-                //           ? const Icon(
-                //               Icons.favorite,
-                //               color: Colors.red,
-                //             )
-                //           : const Icon(Icons.favorite_border);
-                //     },
-                //   ),
-                // ),
+                trailing: SizedBox(
+                  height: 20,
+                  width: 35,
+                  child: LikeButton(
+                    size: 25,
+                    onTap: (isLiked) async {
+                      ref
+                          .read(petControllerProvider.notifier)
+                          .likePet(pet, user.$id);
+                      return !isLiked;
+                    },
+                    likeBuilder: (isLiked) {
+                      return pet.likes.contains(user.$id)
+                          ? const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            )
+                          : const Icon(Icons.favorite_border);
+                    },
+                  ),
+                ),
 
                 // IconButton(
                 //   onPressed: () {

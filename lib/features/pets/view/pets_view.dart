@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_base/features/auth/controller/auth_controller.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 
 import '../controller/filtered_pets_controller.dart';
 import '../controller/pet_search_controller.dart';
@@ -14,6 +15,7 @@ class PetsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final pets = ref.watch(initializationControllerProvider.notifier).pets;
+    ref.watch(petControllerProvider.notifier).getPets(ref);
     final petsProvider = ref.watch(filteredPetsProvider.notifier);
     final pets = petsProvider.getFilteredPets();
     final currentUser = ref.watch(getCurrentAccountProvider).value;

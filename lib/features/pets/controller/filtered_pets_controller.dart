@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/features/pets/controller/pet_type_controller.dart';
@@ -21,8 +19,6 @@ class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
 
   List<PetModel> getFilteredPets() {
     List<PetModel> filteredPets = _petsInitial.pets;
-
-    print(filteredPets.length);
 
     switch (_petsByType.state) {
       case PetType.all:
