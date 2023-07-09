@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/pets/view/likes_view.dart';
 import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 

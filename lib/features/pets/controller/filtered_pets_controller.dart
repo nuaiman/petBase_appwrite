@@ -1,16 +1,17 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/features/pets/controller/pet_type_controller.dart';
 import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
-import '../../initialization/controller/initialization_controller.dart';
-
 class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
-  final InitializationControllerNotifier _petsInitial;
+  final PetControllerNotifier _petsInitial;
   final PetSearchNotifier _petsBySearch;
   final PetTypeNotifier _petsByType;
   FilteredPetsNotifier({
-    required InitializationControllerNotifier petsInitial,
+    required PetControllerNotifier petsInitial,
     required PetSearchNotifier petsBySearch,
     required PetTypeNotifier petsByType,
   })  : _petsInitial = petsInitial,
@@ -92,7 +93,7 @@ class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
 
 final filteredPetsProvider =
     StateNotifierProvider<FilteredPetsNotifier, List<PetModel>>((ref) {
-  final petsInitial = ref.watch(initializationControllerProvider.notifier);
+  final petsInitial = ref.watch(petControllerProvider.notifier);
   final petsBySearch = ref.watch(petSearchProvider.notifier);
   final petsByType = ref.watch(petTypeFilterProvider.notifier);
 

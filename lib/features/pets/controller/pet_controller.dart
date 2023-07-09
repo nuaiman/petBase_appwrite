@@ -24,6 +24,12 @@ class PetControllerNotifier extends StateNotifier<bool> {
         _storageApi = storageApi,
         super(false);
 
+  late List<PetModel> _pets;
+  List<PetModel> get pets => _pets;
+  void setPets(List<PetModel> pets) {
+    _pets = pets;
+  }
+
   void sharePet({
     required BuildContext context,
     required List<File> images,
@@ -66,7 +72,9 @@ class PetControllerNotifier extends StateNotifier<bool> {
     try {
       final result = await _petApi.likePet(petModel);
       result.fold((l) => null, (r) => null);
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 // -----------------------------------------------------------------------------

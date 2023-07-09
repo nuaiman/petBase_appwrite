@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:math';
 
@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:pet_base/apis/pet_api.dart';
 import 'package:pet_base/features/auth/controller/auth_controller.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/features/pets/view/pets_view.dart';
 
 import '../../../models/pet_model.dart';
@@ -37,7 +38,8 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
   void initializeData(BuildContext context, WidgetRef ref) async {
     await getCurrentLocation(context, ref);
     await initializeCurrentUser(ref);
-    await getPets();
+    final pets = await getPets();
+    ref.read(petControllerProvider.notifier).setPets(pets);
 
     // print(_pets);
 
