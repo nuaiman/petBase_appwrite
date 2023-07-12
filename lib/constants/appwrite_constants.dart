@@ -1,5 +1,7 @@
+import 'package:pet_base/constants/project_id_secret_pass.dart';
+
 class AppwriteConstants {
-  static const String projectId = '64a51e755bca54cb8646';
+  static const String projectId = projectIdSecretPass;
   static const String databaseId = '64a51eb9af58b3885d4e';
   static const String endPoint = 'https://cloud.appwrite.io/v1';
 
