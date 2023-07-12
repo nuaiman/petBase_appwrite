@@ -13,7 +13,7 @@ import '../../../apis/storage_api.dart';
 import '../../../core/utils.dart';
 import '../view/pets_view.dart';
 
-class PetControllerNotifier extends StateNotifier<bool> {
+class PetControllerNotifier extends StateNotifier<List<PetModel>> {
   final Ref _ref;
   final PetApi _petApi;
   final StorageApi _storageApi;
@@ -24,14 +24,12 @@ class PetControllerNotifier extends StateNotifier<bool> {
   })  : _ref = ref,
         _petApi = petApi,
         _storageApi = storageApi,
-        super(false);
+        super([]);
 
-  late List<PetModel> _pets;
-  List<PetModel> get pets => _pets;
+  bool isloading = false;
+
   void setPets(List<PetModel> pets) {
-    _pets = pets;
-    print(_pets[0].likes);
-    // this print shows desired result, but UI is not updating...
+    state = pets;
   }
 
   void sharePet({
@@ -39,17 +37,17 @@ class PetControllerNotifier extends StateNotifier<bool> {
     required List<File> images,
     required PetModel petModel,
   }) async {
-    state = true;
+    isloading = true;
     final imageLinks = await _storageApi.uploadImages(images);
     petModel = petModel.copyWith(images: imageLinks);
     final response = await _petApi.sharePet(petModel);
     response.fold(
       (l) {
         showSnackbar(context, l.message);
-        state = false;
+        isloading = false;
       },
       (r) {
-        state = false;
+        isloading = false;
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const PetsView(),
         ));
@@ -76,13 +74,13 @@ class PetControllerNotifier extends StateNotifier<bool> {
     final lon = ref.read(initializationControllerProvider.notifier).lon;
 
     final petList = await _petApi.getPets();
-    _pets = petList
+    state = petList
         .map((pet) => PetModel.fromMap(pet.data).copyWith(
             distance:
                 calculateDistance(lat, lon, pet.data['lat'], pet.data['lon'])))
         .toList();
 
-    return _pets;
+    return state;
   }
 
   void likePet(PetModel petModel, String userId) async {
@@ -108,20 +106,19 @@ class PetControllerNotifier extends StateNotifier<bool> {
   }
 
   void updateSinglePetLikes(String petId, List<String> likes) {
-    List<PetModel> extractedPets = [..._pets];
+    List<PetModel> extractedPets = [...state];
     PetModel editablePet =
         extractedPets.firstWhere((element) => element.id == petId);
     int editablePetIndex = extractedPets.indexOf(editablePet);
     extractedPets.remove(editablePet);
     extractedPets.insert(editablePetIndex, editablePet.copyWith(likes: likes));
-    // final newList = extractedPets;
-    setPets(extractedPets);
+    state = extractedPets;
   }
 }
 // -----------------------------------------------------------------------------
 
 final petControllerProvider =
-    StateNotifierProvider<PetControllerNotifier, bool>((ref) {
+    StateNotifierProvider<PetControllerNotifier, List<PetModel>>((ref) {
   final petApi = ref.watch(petApiProvider);
   final storageApi = ref.watch(storageApiProvider);
   return PetControllerNotifier(

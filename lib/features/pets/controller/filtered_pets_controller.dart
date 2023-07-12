@@ -83,7 +83,7 @@ class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
 
 final filteredPetsProvider =
     StateNotifierProvider<FilteredPetsNotifier, List<PetModel>>((ref) {
-  final petsInitial = ref.watch(petControllerProvider.notifier).pets;
+  final petsInitial = ref.watch(petControllerProvider);
   final petsBySearch = ref.watch(petSearchProvider);
   final petsByType = ref.watch(petTypeFilterProvider);
 

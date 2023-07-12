@@ -13,7 +13,7 @@ class PetsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(petControllerProvider.notifier).pets;
+    ref.watch(petControllerProvider.notifier);
     final petsProvider = ref.watch(filteredPetsProvider.notifier);
     final pets = petsProvider.getFilteredPets();
     final currentUser = ref.watch(getCurrentAccountProvider).value;
