@@ -15,7 +15,7 @@ void showSnackbar(BuildContext context, String content) {
 Future<List<File>> pickImages() async {
   List<File> images = [];
   final ImagePicker picker = ImagePicker();
-  final imageFiles = await picker.pickMultiImage(imageQuality: 20);
+  final imageFiles = await picker.pickMultiImage(imageQuality: 30);
   if (imageFiles.isNotEmpty) {
     for (final image in imageFiles) {
       images.add(File(image.path));
@@ -27,7 +27,7 @@ Future<List<File>> pickImages() async {
 Future<File?> pickImage() async {
   final ImagePicker picker = ImagePicker();
   final imageFile =
-      await picker.pickImage(source: ImageSource.gallery, imageQuality: 20);
+      await picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
   if (imageFile != null) {
     return File(imageFile.path);
   }

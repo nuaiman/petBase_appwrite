@@ -51,6 +51,7 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const PetsView(),
         ));
+        showSnackbar(context, 'Please pull to refresh');
       },
     );
   }

@@ -24,7 +24,7 @@ class LikeView extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Your Liked Pets'),
+          title: const Text('Liked Pets'),
         ),
         body: GridView.builder(
           shrinkWrap: true,

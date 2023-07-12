@@ -67,7 +67,10 @@ class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
 
     if (_petsBySearch.isNotEmpty) {
       filteredPets = filteredPets
-          .where((pet) => pet.name.toLowerCase().contains(_petsBySearch))
+          .where((pet) =>
+              pet.name.toLowerCase().contains(_petsBySearch) ||
+              pet.breedName.toLowerCase().contains(_petsBySearch) ||
+              pet.color.toLowerCase().contains(_petsBySearch))
           .toList();
     } else {
       filteredPets = filteredPets;
