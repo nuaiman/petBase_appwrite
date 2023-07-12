@@ -2,44 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_base/features/auth/controller/auth_controller.dart';
 import 'package:pet_base/features/initialization/view/initialization_view.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 
-import '../../../models/pet_model.dart';
 import '../controller/filtered_pets_controller.dart';
 import '../widgets/main_app_bar.dart';
 import '../widgets/pet_tile.dart';
 
-class PetsView extends ConsumerStatefulWidget {
+class PetsView extends ConsumerWidget {
   const PetsView({super.key});
 
   @override
-  ConsumerState<PetsView> createState() => _PetsViewState();
-}
-
-class _PetsViewState extends ConsumerState<PetsView> {
-  late List<PetModel> pets;
-
-  @override
-  void initState() {
-    print('init Running');
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    pets = ref.read(filteredPetsProvider.notifier).getFilteredPets();
-    print('didChangeRunning');
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // ref.watch(petControllerProvider.notifier).pets;
-    // ref.watch(petControllerProvider.notifier).getPets(ref);
-    // final petsProvider = ref.watch(filteredPetsProvider.notifier);
-    // final pets = petsProvider.getFilteredPets();
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(petControllerProvider.notifier).pets;
+    final petsProvider = ref.watch(filteredPetsProvider.notifier);
+    final pets = petsProvider.getFilteredPets();
     final currentUser = ref.watch(getCurrentAccountProvider).value;
-    // ref.watch(petSearchProvider.notifier);
-    // ref.watch(petTypeFilterProvider.notifier);
     return DefaultTabController(
       length: 10,
       child: GestureDetector(
@@ -47,7 +24,6 @@ class _PetsViewState extends ConsumerState<PetsView> {
           FocusManager.instance.primaryFocus!.unfocus();
         },
         child: Scaffold(
-          // appBar: mainAppBar(context, ref),
           body: RefreshIndicator(
             onRefresh: () {
               return Navigator.of(context).pushAndRemoveUntil(

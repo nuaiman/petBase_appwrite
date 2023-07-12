@@ -174,22 +174,22 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                         Wrap(
                           alignment: WrapAlignment.start,
                           children: [
-                            Chip(
-                                avatar: widget.petModel.genderType ==
-                                        GenderType.male
-                                    ? const Icon(
-                                        Icons.male,
-                                        color: Colors.indigoAccent,
-                                      )
-                                    : const Icon(
-                                        Icons.female,
-                                        color: Colors.pinkAccent,
-                                      ),
-                                label: Text(widget.petModel.genderType ==
-                                        GenderType.male
-                                    ? 'Male'
-                                    : 'Female')),
-                            const SizedBox(width: 5),
+                            // Chip(
+                            //     avatar: widget.petModel.genderType ==
+                            //             GenderType.male
+                            //         ? const Icon(
+                            //             Icons.male,
+                            //             color: Colors.indigoAccent,
+                            //           )
+                            //         : const Icon(
+                            //             Icons.female,
+                            //             color: Colors.pinkAccent,
+                            //           ),
+                            //     label: Text(widget.petModel.genderType ==
+                            //             GenderType.male
+                            //         ? 'Male'
+                            //         : 'Female')),
+                            // const SizedBox(width: 5),
                             Chip(
                                 avatar: const Icon(
                                   Icons.scale,

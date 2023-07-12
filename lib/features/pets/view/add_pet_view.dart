@@ -68,7 +68,7 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Uplaod a Pet',
+          'Uplaod Pet',
           style: TextStyle(
             color: Colors.black,
             fontSize: 28,
@@ -278,6 +278,8 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
                         style: TextStyle(fontSize: 16),
                       ),
                       Switch(
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: Colors.grey.shade400,
                           value: _isNeutered,
                           onChanged: (value) {
                             setState(() {
@@ -301,6 +303,8 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
                         style: TextStyle(fontSize: 16),
                       ),
                       Switch(
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: Colors.grey.shade400,
                           value: _isPottyTrained,
                           onChanged: (value) {
                             setState(() {
