@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:like_button/like_button.dart';
-import 'package:pet_base/features/initialization/view/initialization_view.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 import '../../auth/controller/auth_controller.dart';
@@ -97,24 +97,30 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
           children: [
             Stack(
               children: [
-                SizedBox(
-                  height: 450,
-                  width: MediaQuery.of(context).size.height,
-                  child: Image.network(
-                    widget.petModel.images[imageCounter],
-                    fit: BoxFit.fitHeight,
-                  ),
+                CarouselSlider(
+                  options: CarouselOptions(height: 450, viewportFraction: 1),
+                  items: widget.petModel.images.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: const BoxDecoration(color: Colors.white),
+                          child: Image.network(
+                            i,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
                 Positioned(
                   top: 40,
                   right: -10,
                   child: RawMaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => const InitializationView(),
-                          ),
-                          (route) => false);
+                      Navigator.of(context).pop();
                     },
                     elevation: 2.0,
                     fillColor: Colors.white,
@@ -127,78 +133,19 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 70,
-              child: ListView.builder(
-                primary: false,
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.petModel.images.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        changeImage(index);
-                      },
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        color: Colors.amber,
-                        child: Image.network(
-                          widget.petModel.images[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const SizedBox(width: 10),
-                PetPropertyWidget(
-                    text: widget.petModel.genderType == GenderType.male
-                        ? 'Male'
-                        : 'Female'),
-                const SizedBox(width: 5),
-                PetPropertyWidget(text: '${widget.petModel.weight} Kg'),
-                const SizedBox(width: 5),
-                PetPropertyWidget(
-                    text:
-                        '${widget.petModel.years}y ${widget.petModel.months}m'),
-                const SizedBox(width: 10),
-              ],
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                const SizedBox(width: 10),
-                PetPropertyWidget(text: widget.petModel.color),
-                const SizedBox(width: 5),
-                PetPropertyWidget(
-                    text: widget.petModel.spayed ? 'Neutered' : 'Non-Neutered'),
-                const SizedBox(width: 5),
-                PetPropertyWidget(
-                    text: widget.petModel.pottyTrained
-                        ? 'Potty Trained'
-                        : 'Not Potty Trained'),
-                const SizedBox(width: 10),
-              ],
-            ),
-            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         widget.petModel.name,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600),
                       ),
                       Row(
                         children: [
@@ -214,42 +161,86 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                     ],
                   ),
                   const SizedBox(height: 10),
+                  Container(
+                    width: double.infinity,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          children: [
+                            Chip(
+                                avatar: widget.petModel.genderType ==
+                                        GenderType.male
+                                    ? const Icon(
+                                        Icons.male,
+                                        color: Colors.indigoAccent,
+                                      )
+                                    : const Icon(
+                                        Icons.female,
+                                        color: Colors.pinkAccent,
+                                      ),
+                                label: Text(widget.petModel.genderType ==
+                                        GenderType.male
+                                    ? 'Male'
+                                    : 'Female')),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
+                                  Icons.scale,
+                                  color: Colors.black45,
+                                ),
+                                label: Text('${widget.petModel.weight} Kg')),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
+                                  Icons.hourglass_bottom,
+                                  color: Colors.black45,
+                                ),
+                                label: Text(
+                                    '${widget.petModel.years}y ${widget.petModel.months}m')),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
+                                  Icons.cut,
+                                  color: Colors.black45,
+                                ),
+                                label: Text(widget.petModel.spayed
+                                    ? 'Neutered'
+                                    : 'Non-Neutered')),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
+                                  Icons.palette,
+                                  color: Colors.black45,
+                                ),
+                                label: Text(widget.petModel.color)),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
+                                  Icons.sports,
+                                  color: Colors.black45,
+                                ),
+                                label: Text(widget.petModel.pottyTrained
+                                    ? 'Potty Trained'
+                                    : 'Not Potty Trained')),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   Text(widget.petModel.about),
                   const SizedBox(height: 70),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class PetPropertyWidget extends StatelessWidget {
-  final String text;
-  const PetPropertyWidget({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.black,
-        ),
-        height: 30,
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.white,
-            ),
-          ),
         ),
       ),
     );

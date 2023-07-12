@@ -96,10 +96,24 @@ class PetControllerNotifier extends StateNotifier<bool> {
 
     try {
       final result = await _petApi.likePet(petModel);
-      result.fold((l) => null, (r) => null);
+      result.fold((l) => null, (r) {
+        final singlePet = PetModel.fromMap(r.data);
+        updateSinglePetLikes(singlePet.id, singlePet.likes);
+      });
     } catch (e) {
       rethrow;
     }
+  }
+
+  void updateSinglePetLikes(String petId, List<String> likes) {
+    List<PetModel> extractedPets = [..._pets];
+    PetModel editablePet =
+        extractedPets.firstWhere((element) => element.id == petId);
+    int editablePetIndex = extractedPets.indexOf(editablePet);
+    extractedPets.remove(editablePet);
+    extractedPets.insert(editablePetIndex, editablePet.copyWith(likes: likes));
+    // final newList = extractedPets;
+    setPets(extractedPets);
   }
 }
 // -----------------------------------------------------------------------------

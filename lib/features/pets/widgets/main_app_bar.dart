@@ -6,6 +6,7 @@ import 'package:pet_base/models/pet_model.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../controller/pet_type_controller.dart';
 import '../view/add_pet_view.dart';
+import '../view/likes_view.dart';
 
 // SliverAppBar mainAppBar(BuildContext context, WidgetRef ref) {
 //   return SliverAppBar(
@@ -122,19 +123,19 @@ SliverAppBar mainAppBar(
       ],
     ),
     actions: [
-      // IconButton(
-      //   onPressed: () {
-      //     Navigator.of(context).push(MaterialPageRoute(
-      //       builder: (context) => LikeView(
-      //         userId: user.$id,
-      //       ),
-      //     ));
-      //   },
-      //   icon: const Icon(
-      //     Icons.favorite_outline,
-      //   ),
-      // ),
-      // const SizedBox(width: 10),
+      IconButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LikeView(
+              userId: user.$id,
+            ),
+          ));
+        },
+        icon: const Icon(
+          Icons.favorite_outline,
+        ),
+      ),
+      const SizedBox(width: 10),
       IconButton(
         onPressed: () {},
         icon: const Icon(Icons.chat_outlined),

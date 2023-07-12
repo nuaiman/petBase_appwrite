@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_base/features/auth/controller/auth_controller.dart';
-import 'package:pet_base/features/initialization/controller/initialization_controller.dart';
-import 'package:pet_base/features/initialization/view/initialization_view.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 import '../widgets/pet_tile.dart';
@@ -31,21 +30,21 @@ class _LikeViewState extends ConsumerState<LikeView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const InitializationView(),
-                  ),
-                  (route) => false);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
+          // automaticallyImplyLeading: false,
+          // leading: IconButton(
+          //   onPressed: () {
+          //     Navigator.of(context).pushAndRemoveUntil(
+          //         MaterialPageRoute(
+          //           builder: (context) => const InitializationView(),
+          //         ),
+          //         (route) => false);
+          //   },
+          //   icon: const Icon(Icons.arrow_back_ios),
+          // ),
           title: const Text('Your Liked Pets'),
         ),
         body: FutureBuilder(
-          future: ref.read(initializationControllerProvider.notifier).getPets(),
+          future: ref.read(petControllerProvider.notifier).getPets(ref),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
