@@ -30,6 +30,8 @@ class PetControllerNotifier extends StateNotifier<bool> {
   List<PetModel> get pets => _pets;
   void setPets(List<PetModel> pets) {
     _pets = pets;
+    print(_pets[0].likes);
+    // this print shows desired result, but UI is not updating...
   }
 
   void sharePet({
