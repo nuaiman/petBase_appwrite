@@ -126,9 +126,7 @@ SliverAppBar mainAppBar(
       IconButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => LikeView(
-              userId: user.$id,
-            ),
+            builder: (context) => const LikeView(),
           ));
         },
         icon: const Icon(
