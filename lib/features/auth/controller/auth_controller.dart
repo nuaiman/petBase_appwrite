@@ -6,6 +6,7 @@ import 'package:pet_base/models/user_model.dart';
 
 import '../../../apis/auth_api.dart';
 import '../../../core/utils.dart';
+import '../../initialization/view/initialization_view.dart';
 import '../../pets/view/pets_view.dart';
 import '../view/auth_otp_view.dart';
 import '../view/auth_phone_view.dart';
@@ -156,7 +157,7 @@ class AuthControllerNotifier extends StateNotifier<UserModel> {
         _loader.changeLoadingStatus(false);
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const PetsView(),
+            builder: (context) => const InitializationView(),
           ),
           (route) => false,
         );
