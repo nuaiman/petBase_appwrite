@@ -48,7 +48,7 @@ class PetApi implements IPetApi {
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.petsCollection,
       queries: [
-        // Query.orderDesc('postedAt'),
+        Query.orderDesc('postedAt'),
       ],
     );
     return documents.documents;

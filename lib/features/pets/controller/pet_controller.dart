@@ -28,6 +28,21 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
 
   bool isloading = false;
 
+  bool _sortedByDate = false;
+  bool get sortedByDate => _sortedByDate;
+
+  void reSortPets() {
+    _sortedByDate = !_sortedByDate;
+    state = state
+      ..sort(
+        (b, a) => _sortedByDate
+            ? a.postedAt.compareTo(b.postedAt)
+            : b.distance.compareTo(a.distance),
+      );
+    final newList = [...state];
+    state = newList;
+  }
+
   void setPets(List<PetModel> pets) {
     state = pets;
   }

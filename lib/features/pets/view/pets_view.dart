@@ -17,6 +17,7 @@ class PetsView extends ConsumerWidget {
     final petsProvider = ref.watch(filteredPetsProvider.notifier);
     final pets = petsProvider.getFilteredPets();
     final currentUser = ref.watch(getCurrentAccountProvider).value;
+    ref.watch(petControllerProvider.notifier).sortedByDate;
     return DefaultTabController(
       length: 10,
       child: GestureDetector(
@@ -25,6 +26,7 @@ class PetsView extends ConsumerWidget {
         },
         child: Scaffold(
           body: RefreshIndicator(
+            triggerMode: RefreshIndicatorTriggerMode.onEdge,
             color: Colors.black,
             onRefresh: () {
               return Navigator.of(context).pushAndRemoveUntil(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 import '../../auth/controller/auth_controller.dart';
+import '../controller/filtered_pets_controller.dart';
 import '../controller/pet_type_controller.dart';
 import '../view/add_pet_view.dart';
 import '../view/likes_view.dart';
@@ -184,6 +186,21 @@ SliverAppBar mainAppBar(
                       ));
                     },
                     icon: const Icon(Icons.add),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
+              Card(
+                color: const Color(0xFFE3ECFF),
+                elevation: 0,
+                child: SizedBox(
+                  height: 50,
+                  width: 45,
+                  child: IconButton(
+                    onPressed: () {
+                      ref.read(petControllerProvider.notifier).reSortPets();
+                    },
+                    icon: const Icon(Icons.sort),
                   ),
                 ),
               ),
