@@ -151,7 +151,7 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                   child: DotsIndicator(
                     dotsCount: widget.petModel.images.length,
                     position: imageCounter.toDouble(),
-                    decorator: DotsDecorator(
+                    decorator: const DotsDecorator(
                       activeColor: Colors.indigoAccent,
                     ),
                   ),
@@ -253,7 +253,7 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                             //             GenderType.male
                             //         ? 'Male'
                             //         : 'Female')),
-                            // const SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Chip(
                                 avatar: const Icon(
                                   Icons.scale,
@@ -271,19 +271,20 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                             const SizedBox(width: 5),
                             Chip(
                                 avatar: const Icon(
+                                  Icons.palette,
+                                  color: Colors.black45,
+                                ),
+                                label: Text(widget.petModel.color)),
+                            const SizedBox(width: 5),
+                            Chip(
+                                avatar: const Icon(
                                   Icons.cut,
                                   color: Colors.black45,
                                 ),
                                 label: Text(widget.petModel.spayed
                                     ? 'Neutered'
                                     : 'Non-Neutered')),
-                            const SizedBox(width: 5),
-                            Chip(
-                                avatar: const Icon(
-                                  Icons.palette,
-                                  color: Colors.black45,
-                                ),
-                                label: Text(widget.petModel.color)),
+
                             const SizedBox(width: 5),
                             Chip(
                                 avatar: const Icon(
