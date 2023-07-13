@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_base/models/pet_model.dart';
 
@@ -98,7 +100,15 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
             Stack(
               children: [
                 CarouselSlider(
-                  options: CarouselOptions(height: 450, viewportFraction: 1),
+                  options: CarouselOptions(
+                    height: 450,
+                    viewportFraction: 1,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        imageCounter = index;
+                      });
+                    },
+                  ),
                   items: widget.petModel.images.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
@@ -133,46 +143,100 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                 ),
               ],
             ),
+            const SizedBox(height: 5),
+            Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: DotsIndicator(
+                    dotsCount: widget.petModel.images.length,
+                    position: imageCounter.toDouble(),
+                    decorator: DotsDecorator(
+                      activeColor: Colors.indigoAccent,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.petModel.name,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w600),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '${(widget.petModel.distance).toStringAsFixed(1)} km - ${widget.petModel.city}',
-                          ),
-                          const Icon(
-                            Icons.location_on_outlined,
+                  ListTile(
+                    minVerticalPadding: 0, // else 2px still present
+                    dense: true, // else 2px still present
+                    visualDensity:
+                        VisualDensity.compact, // Else theme will be use
+                    contentPadding: const EdgeInsets.all(0),
+                    leading: widget.petModel.genderType == GenderType.male
+                        ? const Icon(
+                            Icons.male,
+                            color: Colors.indigoAccent,
+                            size: 30,
+                          )
+                        : const Icon(
+                            Icons.female,
+                            color: Colors.pinkAccent,
                             size: 30,
                           ),
-                        ],
+                    title: Text(
+                      widget.petModel.name,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      widget.petModel.breedName,
+                      style: const TextStyle(
+                        // fontSize: 24,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
+                    ),
+                    trailing: Text(
+                      DateFormat.yMMMd().format(widget.petModel.postedAt),
+                      style: const TextStyle(
+                        // fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  ListTile(
+                    minVerticalPadding: 0, // else 2px still present
+                    dense: true, // else 2px still present
+                    visualDensity:
+                        VisualDensity.compact, // Else theme will be use
+                    contentPadding: const EdgeInsets.all(0),
+                    leading: const Icon(
+                      Icons.location_on_rounded,
+                      color: Colors.indigoAccent,
+                      size: 30,
+                    ),
+                    title: Text(
+                      widget.petModel.city,
+                      style: const TextStyle(),
+                    ),
+                    trailing: Text(
+                      '${(widget.petModel.distance).toStringAsFixed(1)} Km',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'About ${widget.petModel.name}',
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 15),
                   Container(
                     width: double.infinity,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Wrap(
-                          alignment: WrapAlignment.start,
+                          alignment: WrapAlignment.center,
                           children: [
                             // Chip(
                             //     avatar: widget.petModel.genderType ==
