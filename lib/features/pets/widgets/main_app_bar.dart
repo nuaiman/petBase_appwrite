@@ -314,8 +314,8 @@ class TabBuilder extends ConsumerWidget {
           text,
           style: TextStyle(
             color: getButtonColor(type, ref),
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
           ),
         ));
   }

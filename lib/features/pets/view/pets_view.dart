@@ -25,6 +25,7 @@ class PetsView extends ConsumerWidget {
         },
         child: Scaffold(
           body: RefreshIndicator(
+            color: Colors.black,
             onRefresh: () {
               return Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
