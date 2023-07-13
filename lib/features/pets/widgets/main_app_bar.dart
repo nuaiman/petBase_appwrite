@@ -5,7 +5,7 @@ import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 import '../../auth/controller/auth_controller.dart';
-import '../controller/filtered_pets_controller.dart';
+import '../../chats/view/chats_view.dart';
 import '../controller/pet_type_controller.dart';
 import '../view/add_pet_view.dart';
 import '../view/likes_view.dart';
@@ -137,7 +137,11 @@ SliverAppBar mainAppBar(
       ),
       const SizedBox(width: 10),
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const ChatsView(),
+          ));
+        },
         icon: const Icon(Icons.chat_outlined),
       ),
       const SizedBox(width: 10),
