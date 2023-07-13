@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/apis/auth_api.dart';
+import 'package:pet_base/features/chats/view/chats_view.dart';
+import 'package:pet_base/models/conversation_model.dart';
 import 'package:pet_base/models/user_model.dart';
 
 import '../../../apis/chat_api.dart';
@@ -15,15 +16,45 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
         _auth = auth,
         super(false);
 
-  void sendText(
-      {required BuildContext context,
-      required String otherUserId,
-      required String text}) async {
+  void startConversation({
+    required BuildContext context,
+    required String ownerId,
+    required String reqUid,
+    required String ownerImageUrl,
+    required String ownerName,
+    required String requestingUserImageUrl,
+    required String requestingUserName,
+  }) async {
+    await _chatsApi.startConversation(
+      ConversationModel(
+        postOwnerId: ownerId,
+        requestingUid: reqUid,
+        identifier: '${reqUid}_$ownerId',
+        ownerImageUrl: ownerImageUrl,
+        ownerName: ownerName,
+        requestingUserImageUrl: requestingUserImageUrl,
+        requestingUserName: requestingUserName,
+      ),
+    );
+
+    if (context.mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const ChatsView(),
+        ),
+      );
+    }
+  }
+
+  void sendText({
+    required BuildContext context,
+    required String otherUserId,
+    required String conversationId,
+    required String text,
+  }) async {
     await _chatsApi.sendChat(
-      currentUserId: _auth.id,
-      otherUserId: otherUserId,
       chat: ChatModel(
-        identifier: '${_auth.id}_$otherUserId',
+        identifier: conversationId,
         senderId: _auth.id,
         otherId: otherUserId,
         message: text,
@@ -36,6 +67,14 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
     final chatList = await _chatsApi.getChats(
         currentUserId: _auth.id, otherUserId: otherUserId);
     final list = chatList.map((chat) => ChatModel.fromMap(chat.data)).toList();
+    return list;
+  }
+
+  Future<List<ConversationModel>> getConversations(String uid) async {
+    final conversationList = await _chatsApi.getAllConversation(uid);
+    final list = conversationList
+        .map((conversation) => ConversationModel.fromMap(conversation.data))
+        .toList();
     return list;
   }
 }
@@ -52,6 +91,11 @@ final chatsControllerProvider =
 final getChatsProvider = FutureProvider.family((ref, String otherUserId) async {
   final chatController = ref.watch(chatsControllerProvider.notifier);
   return chatController.getChats(otherUserId: otherUserId);
+});
+
+final getConversationsProvider = FutureProvider.family((ref, String uid) async {
+  final chatController = ref.watch(chatsControllerProvider.notifier);
+  return chatController.getConversations(uid);
 });
 
 final getLatestChatProvider = StreamProvider.autoDispose((ref) {

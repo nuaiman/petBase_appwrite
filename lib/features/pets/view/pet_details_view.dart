@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
+import 'package:pet_base/features/chats/controller/chats_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
 import '../../auth/controller/auth_controller.dart';
@@ -29,7 +30,7 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(getCurrentAccountProvider).value;
+    final currentUser = ref.watch(authControllerProvider);
     // final currentLocation = ref.watch(getCurrentLocalProvider).value;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -43,18 +44,31 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
           children: [
             const SizedBox(width: 10),
             Expanded(
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.black,
-                ),
-                child: const Center(
-                  child: Text(
-                    'Adopt Me',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
+              child: GestureDetector(
+                onTap: () {
+                  ref.read(chatsControllerProvider.notifier).startConversation(
+                        context: context,
+                        ownerId: widget.petModel.uid,
+                        reqUid: currentUser.id,
+                        ownerImageUrl: widget.petModel.userImage,
+                        ownerName: widget.petModel.userName,
+                        requestingUserImageUrl: currentUser.imageUrl,
+                        requestingUserName: currentUser.name,
+                      );
+                },
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.black,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Adopt Me',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -73,11 +87,11 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                 onTap: (isLiked) async {
                   ref
                       .read(petControllerProvider.notifier)
-                      .likePet(widget.petModel, currentUser!.$id);
+                      .likePet(widget.petModel, currentUser.id);
                   return !isLiked;
                 },
                 likeBuilder: (isLiked) {
-                  return widget.petModel.likes.contains(currentUser!.$id)
+                  return widget.petModel.likes.contains(currentUser.id)
                       ? const Icon(
                           Icons.favorite,
                           color: Colors.red,

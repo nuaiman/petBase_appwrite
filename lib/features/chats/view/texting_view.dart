@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/auth/controller/auth_controller.dart';
+import 'package:pet_base/models/conversation_model.dart';
 
 import '../../../models/user_model.dart';
 import '../controller/chats_controller.dart';
@@ -8,12 +10,10 @@ import '../widgets/text_list.dart';
 class TextingView extends ConsumerStatefulWidget {
   const TextingView({
     super.key,
-    required this.currentUser,
-    required this.otherUser,
+    required this.conversation,
   });
 
-  final UserModel currentUser;
-  final UserModel otherUser;
+  final ConversationModel conversation;
 
   @override
   ConsumerState<TextingView> createState() => _TextingViewState();
@@ -21,6 +21,13 @@ class TextingView extends ConsumerStatefulWidget {
 
 class _TextingViewState extends ConsumerState<TextingView> {
   final _textController = TextEditingController();
+  late UserModel currentUser;
+
+  @override
+  void initState() {
+    currentUser = ref.read(authControllerProvider);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -41,18 +48,25 @@ class _TextingViewState extends ConsumerState<TextingView> {
           leading: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(widget.otherUser.imageUrl),
+              backgroundImage: NetworkImage(
+                currentUser.imageUrl == widget.conversation.ownerImageUrl
+                    ? widget.conversation.requestingUserImageUrl
+                    : widget.conversation.ownerImageUrl,
+              ),
             ),
           ),
           centerTitle: false,
-          title: Text(widget.otherUser.name),
+          title: Text(
+            currentUser.name == widget.conversation.ownerName
+                ? widget.conversation.requestingUserName
+                : widget.conversation.ownerName,
+          ),
         ),
         body: Column(
           children: [
             Expanded(
               child: TextList(
-                currentUser: widget.currentUser,
-                otherUser: widget.otherUser,
+                conversation: widget.conversation,
               ),
             ),
             Container(
@@ -90,13 +104,21 @@ class _TextingViewState extends ConsumerState<TextingView> {
                                   .read(chatsControllerProvider.notifier)
                                   .sendText(
                                     context: context,
-                                    otherUserId: widget.otherUser.id,
+                                    conversationId:
+                                        widget.conversation.identifier,
+                                    otherUserId: currentUser.id ==
+                                            widget.conversation.postOwnerId
+                                        ? widget.conversation.requestingUid
+                                        : widget.conversation.postOwnerId,
                                     text: _textController.text,
                                   );
 
                               _textController.clear();
                             },
-                            icon: const Icon(Icons.send),
+                            icon: const Icon(
+                              Icons.send,
+                              color: Colors.indigoAccent,
+                            ),
                           ),
                         ),
                       ),

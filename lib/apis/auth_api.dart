@@ -31,16 +31,9 @@ abstract class IAuthApi {
 
 class AuthApi implements IAuthApi {
   final Account _account;
-  // final Databases _databases;
-  // final Storage _storage;
   AuthApi({
     required Account account,
-    // required Databases databases,
-    // required Storage storage,
-  }) : _account = account
-  // _databases = databases,
-  // _storage = storage
-  ;
+  }) : _account = account;
 
   @override
   FutureEither<Token> createSession(
@@ -132,11 +125,7 @@ class AuthApi implements IAuthApi {
 
 final authApiProvider = Provider((ref) {
   final account = ref.watch(appwriteAccountProvider);
-  // final databases = ref.watch(appwriteDatabaseProvider);
-  // final storage = ref.watch(appwriteStorageProvider);
   return AuthApi(
     account: account,
-    // databases: databases,
-    // storage: storage,
   );
 });

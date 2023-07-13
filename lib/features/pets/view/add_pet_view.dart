@@ -65,7 +65,7 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(getCurrentAccountProvider).value;
+    final currentUser = ref.watch(authControllerProvider);
     final localAndUser = ref.watch(initializationControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +96,9 @@ class _AddPetViewState extends ConsumerState<AddPetView> {
                           images: _images,
                           petModel: PetModel(
                             id: ID.unique(),
-                            uid: currentUser!.$id,
+                            uid: currentUser.id,
+                            userName: currentUser.name,
+                            userImage: currentUser.imageUrl,
                             petType: ConvertPet(_selectedPetCategory)
                                 .toPetTypeEnum(),
                             genderType: ConvertGender(_selectedGenderCategory)

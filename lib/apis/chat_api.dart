@@ -1,16 +1,19 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/models/conversation_model.dart';
 
 import '../constants/appwrite_constants.dart';
 import '../core/providers.dart';
 import '../models/chat_model.dart';
 
 abstract class IChatsApi {
-  Future<String?> sendChat(
-      {required String currentUserId,
-      required String otherUserId,
-      required ChatModel chat});
+  Future<void> startConversation(ConversationModel conversation);
+
+  // Future<List<Document>> getAllConversation(String uid);
+  Future<List<Document>> getAllConversation(String uid);
+
+  Future<String?> sendChat({required ChatModel chat});
 
   Future<List<Document>> getChats(
       {required String currentUserId, required String otherUserId});
@@ -21,21 +24,36 @@ abstract class IChatsApi {
 
 class ChatsApi implements IChatsApi {
   final Databases _databases;
-  final Account _account;
   final Realtime _realtime;
-  ChatsApi(
-      {required Databases databases,
-      required Account account,
-      required Realtime realtime})
-      : _account = account,
-        _databases = databases,
+  ChatsApi({required Databases databases, required Realtime realtime})
+      : _databases = databases,
         _realtime = realtime;
 
   @override
-  Future<String?> sendChat(
-      {required String currentUserId,
-      required String otherUserId,
-      required ChatModel chat}) async {
+  Future<void> startConversation(ConversationModel conversation) async {
+    try {
+      await _databases.createDocument(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.conversationsCollection,
+        documentId: '${conversation.requestingUid}_${conversation.postOwnerId}',
+        data: {
+          'requestingUid': conversation.requestingUid,
+          'postOwnerId': conversation.postOwnerId,
+          'identifier':
+              '${conversation.requestingUid}_${conversation.postOwnerId}',
+          'ownerName': conversation.ownerName,
+          'ownerImageUrl': conversation.ownerImageUrl,
+          'requestingUserName': conversation.requestingUserName,
+          'requestingUserImageUrl': conversation.requestingUserImageUrl,
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String?> sendChat({required ChatModel chat}) async {
     Document? document;
     try {
       document = await _databases.createDocument(
@@ -98,12 +116,38 @@ class ChatsApi implements IChatsApi {
       'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.chatsCollection}.documents'
     ]).stream;
   }
+
+  @override
+  Future<List<Document>> getAllConversation(String uid) async {
+    DocumentList documents1 = await _databases.listDocuments(
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.conversationsCollection,
+      queries: [
+        // Query.equal('postOwnerId', uid),
+        Query.equal('requestingUid', uid),
+      ],
+    );
+
+    DocumentList documents2 = await _databases.listDocuments(
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.conversationsCollection,
+      queries: [
+        Query.equal('postOwnerId', uid),
+        // Query.equal('requestingUid', uid),
+      ],
+    );
+
+    if (documents1.documents.isEmpty) {
+      return documents2.documents;
+    }
+
+    return documents1.documents;
+  }
 }
 // -----------------------------------------------------------------------------
 
 final chatsApiProvider = Provider((ref) {
   final databases = ref.watch(appwriteDatabaseProvider);
-  final account = ref.watch(appwriteAccountProvider);
   final realtime = ref.watch(appwriteRealtimeProvider);
-  return ChatsApi(databases: databases, account: account, realtime: realtime);
+  return ChatsApi(databases: databases, realtime: realtime);
 });

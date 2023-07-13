@@ -71,6 +71,8 @@ extension ConvertGender on String {
 class PetModel {
   final String id;
   final String uid;
+  final String userImage;
+  final String userName;
   final PetType petType;
   final GenderType genderType;
   final String name;
@@ -93,6 +95,8 @@ class PetModel {
   PetModel({
     required this.id,
     required this.uid,
+    required this.userImage,
+    required this.userName,
     required this.petType,
     required this.genderType,
     required this.name,
@@ -117,6 +121,8 @@ class PetModel {
   PetModel copyWith({
     String? id,
     String? uid,
+    String? userImage,
+    String? userName,
     PetType? petType,
     GenderType? genderType,
     String? name,
@@ -140,6 +146,8 @@ class PetModel {
     return PetModel(
       id: id ?? this.id,
       uid: uid ?? this.uid,
+      userImage: userImage ?? this.userImage,
+      userName: userName ?? this.userName,
       petType: petType ?? this.petType,
       genderType: genderType ?? this.genderType,
       name: name ?? this.name,
@@ -167,6 +175,8 @@ class PetModel {
 
     // result.addAll({'id': id});
     result.addAll({'uid': uid});
+    result.addAll({'userImage': userImage});
+    result.addAll({'userName': userName});
     result.addAll({'petType': petType.type});
     result.addAll({'genderType': genderType.type});
     result.addAll({'name': name});
@@ -194,6 +204,8 @@ class PetModel {
     return PetModel(
       id: map['\$id'] ?? '',
       uid: map['uid'] ?? '',
+      userImage: map['userImage'] ?? '',
+      userName: map['userName'] ?? '',
       petType: (map['petType'] as String).toPetTypeEnum(),
       genderType: (map['genderType'] as String).toGenderTypeEnum(),
       name: map['name'] ?? '',
@@ -223,7 +235,7 @@ class PetModel {
 
   @override
   String toString() {
-    return 'PetModel(id: $id, uid: $uid, petType: $petType, genderType: $genderType, name: $name, breedName: $breedName, color: $color, city: $city, country: $country, about: $about, images: $images, likes: $likes, years: $years, months: $months, spayed: $spayed, pottyTrained: $pottyTrained, weight: $weight, lat: $lat, lon: $lon, distance: $distance, postedAt: $postedAt)';
+    return 'PetModel(id: $id, uid: $uid, userImage: $userImage, userName: $userName, petType: $petType, genderType: $genderType, name: $name, breedName: $breedName, color: $color, city: $city, country: $country, about: $about, images: $images, likes: $likes, years: $years, months: $months, spayed: $spayed, pottyTrained: $pottyTrained, weight: $weight, lat: $lat, lon: $lon, distance: $distance, postedAt: $postedAt)';
   }
 
   @override
@@ -233,6 +245,8 @@ class PetModel {
     return other is PetModel &&
         other.id == id &&
         other.uid == uid &&
+        other.userImage == userImage &&
+        other.userName == userName &&
         other.petType == petType &&
         other.genderType == genderType &&
         other.name == name &&
@@ -258,6 +272,8 @@ class PetModel {
   int get hashCode {
     return id.hashCode ^
         uid.hashCode ^
+        userImage.hashCode ^
+        userName.hashCode ^
         petType.hashCode ^
         genderType.hashCode ^
         name.hashCode ^
