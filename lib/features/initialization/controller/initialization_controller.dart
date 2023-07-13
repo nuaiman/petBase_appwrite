@@ -9,8 +9,6 @@ import 'package:pet_base/features/auth/controller/auth_controller.dart';
 import 'package:pet_base/features/pets/controller/pet_controller.dart';
 import 'package:pet_base/features/pets/view/pets_view.dart';
 
-import '../../../models/user_model.dart';
-
 class InitializationControllerNotifier extends StateNotifier<bool> {
   InitializationControllerNotifier({required PetApi petApi}) : super(false);
 
@@ -19,21 +17,15 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
   double? _lat;
   double? _lon;
 
-  late UserModel _currentUser;
-  // late List<PetModel> _pets;
-
   String get city => _city.toString();
   String get country => _country.toString();
   double get lat => _lat!.toDouble();
   double get lon => _lon!.toDouble();
-  UserModel get currentUser => _currentUser;
-  // List<PetModel> get pets => _pets;
 
   void initializeData(BuildContext context, WidgetRef ref) async {
     await getCurrentLocation(context, ref);
-    await initializeCurrentUser(ref);
-    final pets = await ref.read(petControllerProvider.notifier).getPets(ref);
-    ref.read(petControllerProvider.notifier).setPets(pets);
+    await ref.read(authControllerProvider.notifier).getCurrentAccount();
+    await ref.read(petControllerProvider.notifier).getPets(ref);
 
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const PetsView()),
@@ -73,44 +65,6 @@ class InitializationControllerNotifier extends StateNotifier<bool> {
     _lat = locationData.latitude!;
     _lon = locationData.longitude!;
   }
-
-  Future<UserModel> initializeCurrentUser(WidgetRef ref) async {
-    final user = ref.read(getCurrentAccountProvider).value;
-    final currentUser = UserModel(
-      id: user!.$id,
-      name: user.name,
-      phoneNumber: user.phone,
-      city: city,
-      country: country,
-      imageUrl: user.prefs.data['imageUrl'],
-      lat: lat,
-      lon: lon,
-      pets: user.prefs.data['pets'] ?? [],
-      likes: user.prefs.data['likes'] ?? [],
-      conversations: user.prefs.data['conversations'] ?? [],
-    );
-    return currentUser;
-  }
-
-  // Future<List<PetModel>> getPets() async {
-  //   double calculateDistance(lat1, lon1, lat2, lon2) {
-  //     var p = 0.017453292519943295;
-  //     var c = cos;
-  //     var a = 0.5 -
-  //         c((lat2 - lat1) * p) / 2 +
-  //         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-  //     return 12742 * asin(sqrt(a));
-  //   }
-
-  //   final petList = await _petApi.getPets();
-  //   _pets = petList
-  //       .map((pet) => PetModel.fromMap(pet.data).copyWith(
-  //           distance:
-  //               calculateDistance(lat, lon, pet.data['lat'], pet.data['lon'])))
-  //       .toList();
-
-  //   return _pets;
-  // }
 }
 // -----------------------------------------------------------------------------
 

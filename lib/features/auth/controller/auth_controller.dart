@@ -1,6 +1,8 @@
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/loading/loading_controller.dart';
+import 'package:pet_base/models/user_model.dart';
 
 import '../../../apis/auth_api.dart';
 import '../../../core/utils.dart';
@@ -9,27 +11,45 @@ import '../view/auth_otp_view.dart';
 import '../view/auth_phone_view.dart';
 import '../view/update_user_profile_view.dart';
 
-class AuthControllerNotifier extends StateNotifier<bool> {
+class AuthControllerNotifier extends StateNotifier<UserModel> {
   final AuthApi _authApi;
-  AuthControllerNotifier({required AuthApi authApi})
-      : _authApi = authApi,
-        super(false);
+  final LoadingNotifier _loader;
+  AuthControllerNotifier({
+    required AuthApi authApi,
+    required LoadingNotifier loader,
+  })  : _authApi = authApi,
+        _loader = loader,
+        super(
+          UserModel(
+            id: '',
+            name: '',
+            phoneNumber: '',
+            city: '',
+            country: '',
+            imageUrl: '',
+            lat: 0.0,
+            lon: 0.0,
+            pets: [],
+            likes: [],
+            conversations: [],
+          ),
+        );
 
   void createSession({
     required BuildContext context,
     required String phone,
   }) async {
-    state = true;
+    _loader.changeLoadingStatus(true);
     final result = await _authApi.createSession(
         userId: phone.split('+').last, phone: phone);
 
     result.fold(
       (l) {
-        state = false;
+        _loader.changeLoadingStatus(false);
         showSnackbar(context, l.message);
       },
       (r) {
-        state = false;
+        _loader.changeLoadingStatus(false);
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => AuthOtpView(
             userId: r.userId,
@@ -44,16 +64,16 @@ class AuthControllerNotifier extends StateNotifier<bool> {
     required String userId,
     required String secret,
   }) async {
-    state = true;
+    _loader.changeLoadingStatus(true);
     final result = await _authApi.updateSession(userId: userId, secret: secret);
 
     result.fold(
       (l) {
-        state = false;
+        _loader.changeLoadingStatus(false);
         showSnackbar(context, l.message);
       },
       (r) {
-        state = false;
+        _loader.changeLoadingStatus(false);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => UpdateUserProfileView(userId: userId),
         ));
@@ -62,7 +82,23 @@ class AuthControllerNotifier extends StateNotifier<bool> {
   }
 
   Future<User?> getCurrentAccount() async {
-    return await _authApi.getCurrentAccount();
+    User? user = await _authApi.getCurrentAccount();
+    if (user != null) {
+      state = UserModel(
+        id: user.$id,
+        name: user.name,
+        phoneNumber: user.phone,
+        city: user.prefs.data['city'],
+        country: user.prefs.data['country'],
+        imageUrl: user.prefs.data['imageUrl'],
+        lat: user.prefs.data['lat'],
+        lon: user.prefs.data['lon'],
+        pets: user.prefs.data['pets'] ?? [],
+        likes: user.prefs.data['likes'] ?? [],
+        conversations: user.prefs.data['conversations'] ?? [],
+      );
+    }
+    return user;
   }
 
   void logout(BuildContext context) async {
@@ -88,7 +124,7 @@ class AuthControllerNotifier extends StateNotifier<bool> {
     double lat,
     double lon,
   ) async {
-    state = true;
+    _loader.changeLoadingStatus(true);
     final result = await _authApi.createOrUpdateUser(
       userId: userId,
       name: name,
@@ -100,14 +136,24 @@ class AuthControllerNotifier extends StateNotifier<bool> {
 
     result.fold(
       (l) {
-        state = false;
+        _loader.changeLoadingStatus(false);
         showSnackbar(context, l.message);
       },
       (r) {
-        state = false;
-        // ref
-        //     .read(userProfileControllerProvider.notifier)
-        //     .getUserProfileDetails(r.$id);
+        state = UserModel(
+          id: r.$id,
+          name: r.name,
+          phoneNumber: r.phone,
+          city: r.prefs.data['city'],
+          country: r.prefs.data['country'],
+          imageUrl: r.prefs.data['imageUrl'],
+          lat: r.prefs.data['lat'],
+          lon: r.prefs.data['lon'],
+          pets: r.prefs.data['pets'] ?? [],
+          likes: r.prefs.data['likes'] ?? [],
+          conversations: r.prefs.data['conversations'] ?? [],
+        );
+        _loader.changeLoadingStatus(false);
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const PetsView(),
@@ -117,19 +163,14 @@ class AuthControllerNotifier extends StateNotifier<bool> {
       },
     );
   }
-
-  // Future<UserModel> getUserDetails(String uid) async {
-  //   final document = await _userApi.getUserDetails(uid);
-  //   final user = UserModel.fromMap(document.data);
-  //   return user;
-  // }
 }
 // -----------------------------------------------------------------------------
 
 final authControllerProvider =
-    StateNotifierProvider<AuthControllerNotifier, bool>((ref) {
+    StateNotifierProvider<AuthControllerNotifier, UserModel>((ref) {
   final authApi = ref.watch(authApiProvider);
-  return AuthControllerNotifier(authApi: authApi);
+  final loader = ref.watch(loadingProvider.notifier);
+  return AuthControllerNotifier(authApi: authApi, loader: loader);
 });
 
 final getCurrentAccountProvider = FutureProvider((ref) async {

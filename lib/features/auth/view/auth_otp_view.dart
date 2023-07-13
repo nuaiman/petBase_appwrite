@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:pet_base/features/loading/loading_controller.dart';
 
 import '../controller/auth_controller.dart';
 import 'auth_phone_view.dart';
@@ -38,7 +39,7 @@ class _AuthOtpViewState extends ConsumerState<AuthOtpView> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authControllerProvider);
+    final isLoading = ref.watch(loadingProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(

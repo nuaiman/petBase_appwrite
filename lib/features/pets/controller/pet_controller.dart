@@ -56,11 +56,6 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
     );
   }
 
-  // Future<List<PetModel>> getPets() async {
-  //   final petList = await _petApi.getPets();
-  //   return petList.map((pet) => PetModel.fromMap(pet.data)).toList();
-  // }
-
   Future<List<PetModel>> getPets(WidgetRef ref) async {
     double calculateDistance(lat1, lon1, lat2, lon2) {
       var p = 0.017453292519943295;

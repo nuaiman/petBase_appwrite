@@ -16,10 +16,6 @@ abstract class IUserApi {
     required String name,
     required String profilePic,
   });
-
-  Future<Document> getCurrentUserDetails(String userId);
-
-  Future<List<Document>> getAllUsers();
 }
 // -----------------------------------------------------------------------------
 
@@ -109,27 +105,6 @@ class UserApi implements IUserApi {
     } catch (e, stackTrace) {
       return left(Failure(e.toString(), stackTrace));
     }
-  }
-
-  @override
-  Future<Document> getCurrentUserDetails(String userId) async {
-    return _databases.getDocument(
-      databaseId: AppwriteConstants.databaseId,
-      collectionId: AppwriteConstants.usersCollection,
-      documentId: userId,
-      // queries: [
-      //   Query.notEqual('id', userId),
-      // ],
-    );
-  }
-
-  @override
-  Future<List<Document>> getAllUsers() async {
-    final documents = await _databases.listDocuments(
-      databaseId: AppwriteConstants.databaseId,
-      collectionId: AppwriteConstants.usersCollection,
-    );
-    return documents.documents;
   }
 }
 // -----------------------------------------------------------------------------

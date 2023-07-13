@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as geo;
+import 'package:pet_base/features/loading/loading_controller.dart';
 import '../../../core/utils.dart';
 
 import '../controller/auth_controller.dart';
@@ -170,7 +171,7 @@ class _UpdateUserProfileViewState extends ConsumerState<UpdateUserProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authControllerProvider);
+    final isLoading = ref.watch(loadingProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
