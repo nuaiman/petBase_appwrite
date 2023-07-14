@@ -11,11 +11,11 @@ class LikeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(getCurrentAccountProvider).value;
+    final currentUser = ref.watch(authControllerProvider.notifier).currentUser;
     final pets = ref.watch(petControllerProvider);
     List<PetModel> likedPets = pets
         .where(
-          (element) => element.likes.contains(currentUser!.$id),
+          (element) => element.likes.contains(currentUser.$id),
         )
         .toList();
     return GestureDetector(
@@ -36,7 +36,7 @@ class LikeView extends ConsumerWidget {
           ),
           itemCount: likedPets.length,
           itemBuilder: (context, index) {
-            return PetTile(pet: likedPets[index], user: currentUser!);
+            return PetTile(pet: likedPets[index], user: currentUser);
           },
         ),
       ),
