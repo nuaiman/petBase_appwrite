@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/chats/view/chats_view.dart';
-import 'package:pet_base/models/conversation_model.dart';
-import 'package:pet_base/models/user_model.dart';
+import '../view/chats_view.dart';
+import '../../../models/conversation_model.dart';
+import '../../../models/user_model.dart';
 
 import '../../../apis/chat_api.dart';
 import '../../../models/chat_model.dart';

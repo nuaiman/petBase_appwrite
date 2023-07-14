@@ -2,7 +2,7 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:pet_base/constants/appwrite_constants.dart';
+import '../constants/appwrite_constants.dart';
 
 import '../core/failure.dart';
 import '../core/providers.dart';

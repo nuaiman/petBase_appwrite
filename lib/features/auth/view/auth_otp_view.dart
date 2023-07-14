@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:pet_base/features/loading/loading_controller.dart';
+import '../../loading/loading_controller.dart';
 
 import '../controller/auth_controller.dart';
 import 'auth_phone_view.dart';

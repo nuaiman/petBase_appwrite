@@ -1,8 +1,8 @@
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/loading/loading_controller.dart';
-import 'package:pet_base/models/user_model.dart';
+import '../../loading/loading_controller.dart';
+import '../../../models/user_model.dart';
 
 import '../../../apis/auth_api.dart';
 import '../../../core/utils.dart';

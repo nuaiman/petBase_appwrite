@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import 'package:pet_base/features/chats/controller/chats_controller.dart';
-import 'package:pet_base/models/pet_model.dart';
+import '../../chats/controller/chats_controller.dart';
+import '../../../models/pet_model.dart';
 
 import '../../auth/controller/auth_controller.dart';
 import '../controller/pet_controller.dart';

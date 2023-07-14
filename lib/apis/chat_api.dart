@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/models/conversation_model.dart';
+import '../models/conversation_model.dart';
 
 import '../constants/appwrite_constants.dart';
 import '../core/providers.dart';

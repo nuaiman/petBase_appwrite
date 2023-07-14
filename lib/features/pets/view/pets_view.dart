@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/auth/controller/auth_controller.dart';
-import 'package:pet_base/features/initialization/view/initialization_view.dart';
-import 'package:pet_base/features/pets/controller/pet_controller.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../../initialization/view/initialization_view.dart';
+import '../controller/pet_controller.dart';
 
 import '../controller/filtered_pets_controller.dart';
 import '../widgets/main_app_bar.dart';

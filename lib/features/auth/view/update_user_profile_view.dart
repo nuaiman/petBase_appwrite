@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as geo;
+import 'package:location/location.dart';
 import 'package:pet_base/features/loading/loading_controller.dart';
-import '../../../core/utils.dart';
 
+import '../../../core/utils.dart';
 import '../controller/auth_controller.dart';
 
 class UpdateUserProfileView extends ConsumerStatefulWidget {

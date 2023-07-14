@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/initialization/controller/initialization_controller.dart';
+import '../controller/initialization_controller.dart';
 import 'package:shimmer/shimmer.dart';
 
 class InitializationView extends ConsumerStatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:pet_base/constants/project_id_secret_pass.dart';
+import 'project_id_secret_pass.dart';
 
 class AppwriteConstants {
   static const String projectId = projectIdSecretPass;

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/pets/controller/pet_controller.dart';
-import 'package:pet_base/features/pets/controller/pet_type_controller.dart';
-import 'package:pet_base/features/pets/controller/pet_search_controller.dart';
-import 'package:pet_base/models/pet_model.dart';
+import 'pet_controller.dart';
+import 'pet_type_controller.dart';
+import 'pet_search_controller.dart';
+import '../../../models/pet_model.dart';
 
 class FilteredPetsNotifier extends StateNotifier<List<PetModel>> {
   final List<PetModel> _petsInitial;

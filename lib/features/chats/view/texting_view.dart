@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/auth/controller/auth_controller.dart';
-import 'package:pet_base/models/conversation_model.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../../../models/conversation_model.dart';
 
 import '../../../models/user_model.dart';
 import '../controller/chats_controller.dart';

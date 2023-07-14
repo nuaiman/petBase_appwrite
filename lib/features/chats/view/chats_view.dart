@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/auth/controller/auth_controller.dart';
-import 'package:pet_base/features/chats/widgets/conversation_list_tile.dart';
-import 'package:pet_base/models/conversation_model.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../widgets/conversation_list_tile.dart';
 
 import '../../../common/error_page.dart';
-import '../../../common/loading_page.dart';
 import '../controller/chats_controller.dart';
 
 class ChatsView extends ConsumerWidget {

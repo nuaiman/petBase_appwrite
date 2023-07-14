@@ -2,8 +2,8 @@ import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:like_button/like_button.dart';
-import 'package:pet_base/features/pets/view/pet_details_view.dart';
-import 'package:pet_base/models/pet_model.dart';
+import '../view/pet_details_view.dart';
+import '../../../models/pet_model.dart';
 
 import '../controller/pet_controller.dart';
 

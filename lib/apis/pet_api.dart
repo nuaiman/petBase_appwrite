@@ -2,8 +2,8 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:pet_base/core/providers.dart';
-import 'package:pet_base/models/pet_model.dart';
+import '../core/providers.dart';
+import '../models/pet_model.dart';
 
 import '../constants/appwrite_constants.dart';
 import '../core/failure.dart';
