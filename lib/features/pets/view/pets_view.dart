@@ -16,7 +16,7 @@ class PetsView extends ConsumerWidget {
     ref.watch(petControllerProvider.notifier);
     final petsProvider = ref.watch(filteredPetsProvider.notifier);
     final pets = petsProvider.getFilteredPets();
-    final currentUser = ref.watch(getCurrentAccountProvider).value;
+    final currentUser = ref.watch(authControllerProvider.notifier).currentUser;
     ref.watch(petControllerProvider.notifier).sortedByDate;
     return DefaultTabController(
       length: 10,
@@ -41,7 +41,7 @@ class PetsView extends ConsumerWidget {
                     context,
                     pets
                         .where((element) =>
-                            element.likes.contains(currentUser!.$id))
+                            element.likes.contains(currentUser.$id))
                         .toList(),
                     ref),
                 SliverToBoxAdapter(
@@ -56,7 +56,7 @@ class PetsView extends ConsumerWidget {
                     ),
                     itemCount: pets.length,
                     itemBuilder: (context, index) =>
-                        PetTile(pet: pets[index], user: currentUser!),
+                        PetTile(pet: pets[index], user: currentUser),
                   ),
                 ),
               ],

@@ -7,7 +7,6 @@ import 'package:pet_base/models/user_model.dart';
 import '../../../apis/auth_api.dart';
 import '../../../core/utils.dart';
 import '../../initialization/view/initialization_view.dart';
-import '../../pets/view/pets_view.dart';
 import '../view/auth_otp_view.dart';
 import '../view/auth_phone_view.dart';
 import '../view/update_user_profile_view.dart';
@@ -35,6 +34,9 @@ class AuthControllerNotifier extends StateNotifier<UserModel> {
             conversations: [],
           ),
         );
+
+  User? _currentUser;
+  User get currentUser => _currentUser!;
 
   void createSession({
     required BuildContext context,
@@ -85,6 +87,7 @@ class AuthControllerNotifier extends StateNotifier<UserModel> {
   Future<User?> getCurrentAccount() async {
     User? user = await _authApi.getCurrentAccount();
     if (user != null) {
+      _currentUser = user;
       state = UserModel(
         id: user.$id,
         name: user.name,
@@ -141,6 +144,7 @@ class AuthControllerNotifier extends StateNotifier<UserModel> {
         showSnackbar(context, l.message);
       },
       (r) {
+        _currentUser = r;
         state = UserModel(
           id: r.$id,
           name: r.name,

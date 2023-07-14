@@ -97,7 +97,7 @@ import '../view/likes_view.dart';
 
 SliverAppBar mainAppBar(
     BuildContext context, List<PetModel> pets, WidgetRef ref) {
-  final user = ref.watch(getCurrentAccountProvider).value;
+  final user = ref.watch(authControllerProvider.notifier).currentUser;
   return SliverAppBar(
     floating: true,
     snap: true,
@@ -105,7 +105,7 @@ SliverAppBar mainAppBar(
       padding: const EdgeInsets.only(left: 10.0),
       child: CircleAvatar(
         backgroundColor: Colors.white,
-        backgroundImage: NetworkImage(user!.prefs.data['imageUrl']),
+        backgroundImage: NetworkImage(user.prefs.data['imageUrl']),
       ),
     ),
     title: Column(
