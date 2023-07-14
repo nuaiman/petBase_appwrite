@@ -31,9 +31,12 @@ abstract class IAuthApi {
 
 class AuthApi implements IAuthApi {
   final Account _account;
+  final Databases _databases;
   AuthApi({
     required Account account,
-  }) : _account = account;
+    required Databases databases,
+  })  : _account = account,
+        _databases = databases;
 
   @override
   FutureEither<Token> createSession(
@@ -112,6 +115,36 @@ class AuthApi implements IAuthApi {
               'https://cloud.appwrite.io/v1/storage/buckets/64a51f3f0f01b2e0dc88/files/64a54272406a94f86556/view?project=${AppwriteConstants.projectId}&mode=admin',
         },
       );
+      //++++++++++++++++++++ Update/ Create User in database +++++++++++++++++++
+      try {
+        await _databases.updateDocument(
+          databaseId: AppwriteConstants.databaseId,
+          collectionId: AppwriteConstants.usersCollection,
+          documentId: userId,
+          data: {
+            'id': userId,
+            'name': name,
+            'imageUrl': user.prefs.data['imageUrl'],
+          },
+        );
+      } on AppwriteException catch (e) {
+        if (e.code == 404) {
+          await _databases.createDocument(
+            databaseId: AppwriteConstants.databaseId,
+            collectionId: AppwriteConstants.usersCollection,
+            documentId: userId,
+            data: {
+              'id': userId,
+              'name': name,
+              'imageUrl': user.prefs.data['imageUrl'],
+            },
+          );
+        }
+      } catch (e) {
+        rethrow;
+      }
+      //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
       return right(user);
     } on AppwriteException catch (e, stackTrace) {
       return left(
@@ -125,7 +158,9 @@ class AuthApi implements IAuthApi {
 
 final authApiProvider = Provider((ref) {
   final account = ref.watch(appwriteAccountProvider);
+  final databases = ref.watch(appwriteDatabaseProvider);
   return AuthApi(
     account: account,
+    databases: databases,
   );
 });

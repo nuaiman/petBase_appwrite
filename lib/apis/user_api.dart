@@ -9,8 +9,6 @@
 // import '../core/type_defs.dart';
 
 // abstract class IUserApi {
-//   Future<User> getCurrentUser();
-
 //   FutureEither<Document> createOrUpdateUser({
 //     required String userId,
 //     required String name,
@@ -30,11 +28,6 @@
 //       : _account = account,
 //         _databases = databases,
 //         _storage = storage;
-
-//   @override
-//   Future<User> getCurrentUser() async {
-//     return _account.get();
-//   }
 
 //   @override
 //   FutureEither<Document> createOrUpdateUser(
