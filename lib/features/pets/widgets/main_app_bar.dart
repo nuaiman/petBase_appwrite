@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../controller/pet_controller.dart';
 import '../controller/pet_search_controller.dart';
 import '../../../models/pet_model.dart';
@@ -103,9 +104,63 @@ SliverAppBar mainAppBar(
     snap: true,
     leading: Padding(
       padding: const EdgeInsets.only(left: 10.0),
-      child: CircleAvatar(
-        backgroundColor: Colors.white,
-        backgroundImage: NetworkImage(user.prefs.data['imageUrl']),
+      child: GestureDetector(
+        onTap: () {
+          Alert(
+            context: context,
+            style: const AlertStyle(
+              isButtonVisible: false,
+              isCloseButton: false,
+            ),
+            // type: AlertType.warning,
+            title: 'Quick Actions',
+            desc: '',
+            content: Column(
+              children: [
+                DialogButton(
+                  onPressed: () => Navigator.pop(context),
+                  color: Colors.white,
+                  child: TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    label: const Text(
+                      'Update Profile',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                ),
+                DialogButton(
+                  onPressed: () => Navigator.pop(context),
+                  color: Colors.black,
+                  // gradient: const LinearGradient(colors: [
+                  //   Color.fromRGBO(116, 116, 191, 1.0),
+                  //   Color.fromRGBO(52, 138, 199, 1.0)
+                  // ]),
+                  child: TextButton.icon(
+                    onPressed: () {
+                      ref.read(authControllerProvider.notifier).logout(context);
+                    },
+                    icon: const Icon(
+                      Icons.power_settings_new,
+                      color: Colors.red,
+                    ),
+                    label: const Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ).show();
+        },
+        child: CircleAvatar(
+          backgroundColor: Colors.white,
+          backgroundImage: NetworkImage(user.prefs.data['imageUrl']),
+        ),
       ),
     ),
     title: Column(
