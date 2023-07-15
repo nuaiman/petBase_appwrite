@@ -16,27 +16,20 @@ class TextList extends ConsumerWidget {
 
   final ConversationModel conversation;
 
-  // if (realTime.events.contains(
-  //             'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.chatsCollection}.documents.*.create')) {
-  //           ref.read(getChatsProvider(otherUser.id));
-  //         }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     UserModel currentUser = ref.watch(authControllerProvider);
-    String otherUserId = currentUser.id == conversation.postOwnerId
-        ? conversation.requestingUid
-        : conversation.postOwnerId;
-    return ref.watch(getChatsProvider(otherUserId)).when(
+    // String otherUserId = currentUser.id == conversation.postOwnerId
+    //     ? conversation.requestingUid
+    //     : conversation.postOwnerId;
+    return ref.watch(getChatsProvider(conversation.identifier)).when(
           data: (data) {
             ref.watch(getLatestChatProvider).when(
                   data: (realTime) {
                     if (realTime.events.contains(
                             'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.chatsCollection}.documents.*.create') &&
-                        ((realTime.payload['senderId'] == currentUser.id &&
-                                realTime.payload['otherId'] == otherUserId) ||
-                            (realTime.payload['otherId'] == currentUser.id &&
-                                realTime.payload['senderId'] == otherUserId))) {
+                        ((realTime.payload['identifier'] ==
+                            conversation.identifier))) {
                       // ref.read(getChatsProvider(otherUser.id));
 
                       data.add(ChatModel.fromMap(realTime.payload));

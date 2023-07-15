@@ -106,10 +106,6 @@ class _TextingViewState extends ConsumerState<TextingView> {
                                     context: context,
                                     conversationId:
                                         widget.conversation.identifier,
-                                    otherUserId: currentUser.id ==
-                                            widget.conversation.postOwnerId
-                                        ? widget.conversation.requestingUid
-                                        : widget.conversation.postOwnerId,
                                     text: _textController.text,
                                   );
 

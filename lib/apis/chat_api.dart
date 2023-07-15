@@ -11,12 +11,11 @@ abstract class IChatsApi {
   Future<void> startConversation(ConversationModel conversation);
 
   // Future<List<Document>> getAllConversation(String uid);
-  Future<List<Document>> getAllConversation(String uid);
+  Future<List<Document>> getAllConversation(int number, String uid);
 
   Future<String?> sendChat({required ChatModel chat});
 
-  Future<List<Document>> getChats(
-      {required String currentUserId, required String otherUserId});
+  Future<List<Document>> getChats({required String identifier});
 
   Stream<RealtimeMessage> getLatestChat();
 }
@@ -97,15 +96,13 @@ class ChatsApi implements IChatsApi {
   }
 
   @override
-  Future<List<Document>> getChats(
-      {required String currentUserId, required String otherUserId}) async {
+  Future<List<Document>> getChats({required String identifier}) async {
     final documents = await _databases.listDocuments(
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.chatsCollection,
-      // queries: [
-      //   Query.equal('id', '${currentUserId}_$otherUserId'),
-      //   Query.equal('id', '${otherUserId}_$currentUserId'),
-      // ],
+      queries: [
+        Query.equal('identifier', identifier),
+      ],
     );
     return documents.documents;
   }
@@ -118,30 +115,27 @@ class ChatsApi implements IChatsApi {
   }
 
   @override
-  Future<List<Document>> getAllConversation(String uid) async {
-    DocumentList documents1 = await _databases.listDocuments(
-      databaseId: AppwriteConstants.databaseId,
-      collectionId: AppwriteConstants.conversationsCollection,
-      queries: [
-        // Query.equal('postOwnerId', uid),
-        Query.equal('requestingUid', uid),
-      ],
-    );
-
-    DocumentList documents2 = await _databases.listDocuments(
-      databaseId: AppwriteConstants.databaseId,
-      collectionId: AppwriteConstants.conversationsCollection,
-      queries: [
-        Query.equal('postOwnerId', uid),
-        // Query.equal('requestingUid', uid),
-      ],
-    );
-
-    if (documents1.documents.isEmpty) {
-      return documents2.documents;
+  Future<List<Document>> getAllConversation(int number, String uid) async {
+    DocumentList documents;
+    if (number == 1) {
+      documents = await _databases.listDocuments(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.conversationsCollection,
+        queries: [
+          Query.equal('requestingUid', uid),
+        ],
+      );
+    } else {
+      documents = await _databases.listDocuments(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.conversationsCollection,
+        queries: [
+          Query.equal('postOwnerId', uid),
+        ],
+      );
     }
 
-    return documents1.documents;
+    return documents.documents;
   }
 }
 // -----------------------------------------------------------------------------

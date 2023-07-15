@@ -25,11 +25,13 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
     required String requestingUserImageUrl,
     required String requestingUserName,
   }) async {
+    final uniqueId = [ownerId, reqUid];
+    uniqueId.sort();
     await _chatsApi.startConversation(
       ConversationModel(
         postOwnerId: ownerId,
         requestingUid: reqUid,
-        identifier: '${reqUid}_$ownerId',
+        identifier: uniqueId.toString(),
         ownerImageUrl: ownerImageUrl,
         ownerName: ownerName,
         requestingUserImageUrl: requestingUserImageUrl,
@@ -48,7 +50,6 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
 
   void sendText({
     required BuildContext context,
-    required String otherUserId,
     required String conversationId,
     required String text,
   }) async {
@@ -56,25 +57,28 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
       chat: ChatModel(
         identifier: conversationId,
         senderId: _auth.id,
-        otherId: otherUserId,
         message: text,
         date: DateTime.now(),
       ),
     );
   }
 
-  Future<List<ChatModel>> getChats({required String otherUserId}) async {
-    final chatList = await _chatsApi.getChats(
-        currentUserId: _auth.id, otherUserId: otherUserId);
+  Future<List<ChatModel>> getChats({required String conversationId}) async {
+    final chatList = await _chatsApi.getChats(identifier: conversationId);
     final list = chatList.map((chat) => ChatModel.fromMap(chat.data)).toList();
     return list;
   }
 
   Future<List<ConversationModel>> getConversations(String uid) async {
-    final conversationList = await _chatsApi.getAllConversation(uid);
-    final list = conversationList
+    final conversationList1 = await _chatsApi.getAllConversation(1, uid);
+    final conversationList2 = await _chatsApi.getAllConversation(2, uid);
+    final list1 = conversationList1
         .map((conversation) => ConversationModel.fromMap(conversation.data))
         .toList();
+    final list2 = conversationList2
+        .map((conversation) => ConversationModel.fromMap(conversation.data))
+        .toList();
+    final list = list1 + list2;
     return list;
   }
 }
@@ -88,9 +92,9 @@ final chatsControllerProvider =
   return ChatsControllerNotifier(chatsApi: chatsApi, auth: auth);
 });
 
-final getChatsProvider = FutureProvider.family((ref, String otherUserId) async {
+final getChatsProvider = FutureProvider.family((ref, String convoId) async {
   final chatController = ref.watch(chatsControllerProvider.notifier);
-  return chatController.getChats(otherUserId: otherUserId);
+  return chatController.getChats(conversationId: convoId);
 });
 
 final getConversationsProvider = FutureProvider.family((ref, String uid) async {
