@@ -146,12 +146,27 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.black,
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Adopt Me',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(chatsControllerProvider.notifier)
+                            .startConversation(
+                              context: context,
+                              ownerId: widget.petModel.uid,
+                              reqUid: currentUser.id,
+                              ownerImageUrl: widget.petModel.userImage,
+                              ownerName: widget.petModel.userName,
+                              requestingUserImageUrl: currentUser.imageUrl,
+                              requestingUserName: currentUser.name,
+                            );
+                      },
+                      child: const Center(
+                        child: Text(
+                          'Adopt Me',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

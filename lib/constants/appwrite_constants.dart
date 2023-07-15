@@ -8,7 +8,7 @@ class AppwriteConstants {
   static const String usersCollection = '64afd23104400d621c53';
   static const String petsCollection = '64a51f5c33f8827670c3';
   static const String conversationsCollection = '64afcc3d1cf371cf7102';
-  static const String chatsCollection = '64afa7ce626f26ddb5a5';
+  static const String chatsCollection = '64b28d618cc6a09599bd';
 
   static const String imagesBucket = '64a51f3f0f01b2e0dc88';
 
