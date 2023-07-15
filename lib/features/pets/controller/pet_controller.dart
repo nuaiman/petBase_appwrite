@@ -55,7 +55,8 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
     isloading = true;
     final imageLinks = await _storageApi.uploadImages(images);
     petModel = petModel.copyWith(images: imageLinks);
-    final response = await _petApi.sharePet(petModel);
+    final response =
+        await _petApi.sharePet(petModel).timeout(const Duration(seconds: 10));
     response.fold(
       (l) {
         showSnackbar(context, l.message);
