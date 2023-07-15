@@ -33,143 +33,161 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
     final currentUser = ref.watch(authControllerProvider);
     // final currentLocation = ref.watch(getCurrentLocalProvider).value;
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 12,
-          right: 5,
-          left: 5,
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  ref.read(chatsControllerProvider.notifier).startConversation(
-                        context: context,
-                        ownerId: widget.petModel.uid,
-                        reqUid: currentUser.id,
-                        ownerImageUrl: widget.petModel.userImage,
-                        ownerName: widget.petModel.userName,
-                        requestingUserImageUrl: currentUser.imageUrl,
-                        requestingUserName: currentUser.name,
-                      );
-                },
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.black,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Adopt Me',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: const Color(0xFF182747),
-              ),
-              child: LikeButton(
-                size: 25,
-                onTap: (isLiked) async {
-                  ref
-                      .read(petControllerProvider.notifier)
-                      .likePet(widget.petModel, currentUser.id);
-                  return !isLiked;
-                },
-                likeBuilder: (isLiked) {
-                  return widget.petModel.likes.contains(currentUser.id)
-                      ? const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
-                        );
-                },
-              ),
-            ),
-            const SizedBox(width: 10),
-          ],
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(
+      //     bottom: 12,
+      //     right: 5,
+      //     left: 5,
+      //   ),
+      //   child: GestureDetector(
+      //     onTap: () {
+      //       ref.read(chatsControllerProvider.notifier).startConversation(
+      //             context: context,
+      //             ownerId: widget.petModel.uid,
+      //             reqUid: currentUser.id,
+      //             ownerImageUrl: widget.petModel.userImage,
+      //             ownerName: widget.petModel.userName,
+      //             requestingUserImageUrl: currentUser.imageUrl,
+      //             requestingUserName: currentUser.name,
+      //           );
+      //     },
+      //     child: Container(
+      //       height: 45,
+      //       decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(8),
+      //         color: Colors.black,
+      //       ),
+      //       child: const Center(
+      //         child: Text(
+      //           'Adopt Me',
+      //           style: TextStyle(
+      //             fontSize: 20,
+      //             color: Colors.white,
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 450,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        imageCounter = index;
-                      });
-                    },
-                  ),
-                  items: widget.petModel.images.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: const BoxDecoration(color: Colors.white),
-                          child: Image.network(
-                            i,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        );
-                      },
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 450,
+                viewportFraction: 1,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    imageCounter = index;
+                  });
+                },
+              ),
+              items: widget.petModel.images.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Image.network(
+                        i,
+                        fit: BoxFit.fitHeight,
+                      ),
                     );
-                  }).toList(),
-                ),
-                Positioned(
-                  top: 40,
-                  right: -10,
-                  child: RawMaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    padding: const EdgeInsets.all(10.0),
-                    shape: const CircleBorder(),
-                    child: const Icon(
-                      Icons.close,
-                    ),
-                  ),
-                ),
-              ],
+                  },
+                );
+              }).toList(),
             ),
-            const SizedBox(height: 5),
             Center(
               child: Card(
+                color: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DotsIndicator(
+                    mainAxisSize: MainAxisSize.min,
                     dotsCount: widget.petModel.images.length,
                     position: imageCounter.toDouble(),
                     decorator: const DotsDecorator(
-                      activeColor: Colors.indigoAccent,
+                      activeColor: Colors.white,
                     ),
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 50,
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      elevation: 2.0,
+                      fillColor: Colors.black,
+                      padding: const EdgeInsets.all(10.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 45,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.black,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Adopt Me',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 50,
+                    child: RawMaterialButton(
+                      onPressed: () {},
+                      elevation: 2.0,
+                      fillColor: Colors.black,
+                      padding: const EdgeInsets.all(10.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: LikeButton(
+                        size: 25,
+                        onTap: (isLiked) async {
+                          ref
+                              .read(petControllerProvider.notifier)
+                              .likePet(widget.petModel, currentUser.id);
+                          return !isLiked;
+                        },
+                        likeBuilder: (isLiked) {
+                          return widget.petModel.likes.contains(currentUser.id)
+                              ? const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : const Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.white,
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -183,17 +201,24 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                     visualDensity:
                         VisualDensity.compact, // Else theme will be use
                     contentPadding: const EdgeInsets.all(0),
-                    leading: widget.petModel.genderType == GenderType.male
-                        ? const Icon(
-                            Icons.male,
-                            color: Colors.indigoAccent,
-                            size: 30,
-                          )
-                        : const Icon(
-                            Icons.female,
-                            color: Colors.pinkAccent,
-                            size: 30,
-                          ),
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Card(
+                        color: Colors.black,
+                        child: widget.petModel.genderType == GenderType.male
+                            ? const Icon(
+                                Icons.male,
+                                color: Colors.indigoAccent,
+                                size: 20,
+                              )
+                            : const Icon(
+                                Icons.female,
+                                color: Colors.pinkAccent,
+                                size: 20,
+                              ),
+                      ),
+                    ),
                     title: Text(
                       widget.petModel.name,
                       style: const TextStyle(
@@ -220,10 +245,17 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                     visualDensity:
                         VisualDensity.compact, // Else theme will be use
                     contentPadding: const EdgeInsets.all(0),
-                    leading: const Icon(
-                      Icons.location_on_rounded,
-                      color: Colors.indigoAccent,
-                      size: 30,
+                    leading: const SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Card(
+                        color: Colors.black,
+                        child: Icon(
+                          Icons.location_on_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
                     ),
                     title: Text(
                       widget.petModel.city,
@@ -234,12 +266,11 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'About ${widget.petModel.name}',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w600),
+                  const Text(
+                    'Traits',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 5),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -313,8 +344,17 @@ class _PetDetailViewState extends ConsumerState<PetDetailView> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(widget.petModel.about),
+                  const SizedBox(height: 20),
+                  Text(
+                    'About ${widget.petModel.name}',
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    widget.petModel.about,
+                    style: const TextStyle(fontSize: 18),
+                  ),
                   const SizedBox(height: 70),
                 ],
               ),

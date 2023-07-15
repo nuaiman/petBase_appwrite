@@ -144,7 +144,7 @@ SliverAppBar mainAppBar(
         },
         icon: const Icon(Icons.chat_outlined),
       ),
-      const SizedBox(width: 10),
+      const SizedBox(width: 12),
     ],
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight * 1.7),
@@ -178,7 +178,7 @@ SliverAppBar mainAppBar(
               ),
               const SizedBox(width: 5),
               Card(
-                color: const Color(0xFFE3ECFF),
+                color: Colors.black,
                 elevation: 0,
                 child: SizedBox(
                   height: 50,
@@ -189,13 +189,16 @@ SliverAppBar mainAppBar(
                         builder: (context) => const AddPetView(),
                       ));
                     },
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(width: 5),
               Card(
-                color: const Color(0xFFE3ECFF),
+                color: Colors.black,
                 elevation: 0,
                 child: SizedBox(
                   height: 50,
@@ -204,7 +207,10 @@ SliverAppBar mainAppBar(
                     onPressed: () {
                       ref.read(petControllerProvider.notifier).reSortPets();
                     },
-                    icon: const Icon(Icons.sort),
+                    icon: const Icon(
+                      Icons.sort,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
