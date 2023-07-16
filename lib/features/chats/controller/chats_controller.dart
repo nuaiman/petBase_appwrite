@@ -25,13 +25,14 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
     required String requestingUserImageUrl,
     required String requestingUserName,
   }) async {
-    final uniqueId = [ownerId, reqUid];
+    List uniqueId = [ownerId, reqUid];
     uniqueId.sort();
+    final key = '${uniqueId[0]}_${uniqueId[1]}';
     await _chatsApi.startConversation(
       ConversationModel(
         postOwnerId: ownerId,
         requestingUid: reqUid,
-        identifier: uniqueId.toString(),
+        identifier: key,
         ownerImageUrl: ownerImageUrl,
         ownerName: ownerName,
         requestingUserImageUrl: requestingUserImageUrl,

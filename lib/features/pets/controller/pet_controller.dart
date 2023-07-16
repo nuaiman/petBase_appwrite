@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/features/auth/controller/auth_controller.dart';
 import 'package:pet_base/features/initialization/controller/initialization_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
@@ -86,13 +87,14 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
     final lon = ref.read(initializationControllerProvider.notifier).lon;
 
     final petList = await _petApi.getPets();
+
     state = petList
         .map((pet) => PetModel.fromMap(pet.data).copyWith(
             distance:
                 calculateDistance(lat, lon, pet.data['lat'], pet.data['lon'])))
         .toList();
-
-    return state;
+    final user = ref.read(authControllerProvider.notifier).currentUser;
+    return state.where((element) => element.uid != user.$id).toList();
   }
 
   void likePet(PetModel petModel, String userId) async {
