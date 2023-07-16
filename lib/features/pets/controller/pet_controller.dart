@@ -93,8 +93,7 @@ class PetControllerNotifier extends StateNotifier<List<PetModel>> {
             distance:
                 calculateDistance(lat, lon, pet.data['lat'], pet.data['lon'])))
         .toList();
-    final user = ref.read(authControllerProvider.notifier).currentUser;
-    return state.where((element) => element.uid != user.$id).toList();
+    return state;
   }
 
   void likePet(PetModel petModel, String userId) async {

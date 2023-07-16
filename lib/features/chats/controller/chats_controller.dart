@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pet_base/core/utils.dart';
 import '../view/chats_view.dart';
 import '../../../models/conversation_model.dart';
 import '../../../models/user_model.dart';
@@ -25,6 +26,11 @@ class ChatsControllerNotifier extends StateNotifier<bool> {
     required String requestingUserImageUrl,
     required String requestingUserName,
   }) async {
+    if (reqUid == ownerId) {
+      showSnackbar(context, 'Cannot Start Chatting...');
+      return;
+    }
+
     List uniqueId = [ownerId, reqUid];
     uniqueId.sort();
     final key = '${uniqueId[0]}_${uniqueId[1]}';
