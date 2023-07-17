@@ -34,12 +34,11 @@ class ChatsApi implements IChatsApi {
       await _databases.createDocument(
         databaseId: AppwriteConstants.databaseId,
         collectionId: AppwriteConstants.conversationsCollection,
-        documentId: '${conversation.requestingUid}_${conversation.postOwnerId}',
+        documentId: conversation.identifier,
         data: {
           'requestingUid': conversation.requestingUid,
           'postOwnerId': conversation.postOwnerId,
-          'identifier':
-              '${conversation.requestingUid}_${conversation.postOwnerId}',
+          'identifier': conversation.identifier,
           'ownerName': conversation.ownerName,
           'ownerImageUrl': conversation.ownerImageUrl,
           'requestingUserName': conversation.requestingUserName,
