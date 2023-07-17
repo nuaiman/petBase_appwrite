@@ -1,11 +1,8 @@
-// ignore_for_file: unused_field
-
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pet_base/features/auth/controller/auth_controller.dart';
 import 'package:pet_base/features/initialization/controller/initialization_controller.dart';
 import 'package:pet_base/models/pet_model.dart';
 
@@ -15,14 +12,15 @@ import '../../../core/utils.dart';
 import '../view/pets_view.dart';
 
 class PetControllerNotifier extends StateNotifier<List<PetModel>> {
-  final Ref _ref;
+  // final Ref _ref;
   final PetApi _petApi;
   final StorageApi _storageApi;
   PetControllerNotifier({
-    required Ref ref,
+    // required Ref ref,
     required PetApi petApi,
     required StorageApi storageApi,
-  })  : _ref = ref,
+  })  :
+        // _ref = ref,
         _petApi = petApi,
         _storageApi = storageApi,
         super([]);
@@ -135,7 +133,9 @@ final petControllerProvider =
   final petApi = ref.watch(petApiProvider);
   final storageApi = ref.watch(storageApiProvider);
   return PetControllerNotifier(
-      ref: ref, petApi: petApi, storageApi: storageApi);
+      // ref: ref,
+      petApi: petApi,
+      storageApi: storageApi);
 });
 
 // final getPetsProvider = FutureProvider((ref) async {
